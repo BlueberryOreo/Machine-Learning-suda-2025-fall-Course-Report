@@ -1,0 +1,125 @@
+% A4纸，5号
+\documentclass[a4paper,AutoFakeBold={2},10.5pt]{article}
+
+\usepackage{style}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{amsfonts}
+\usepackage{hologo}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath}  % 加载amsmath包以支持数学公式
+\usepackage{newtxmath}  % 使用 Times New Roman 字体设置数学公式
+\usepackage{times}  % 设置正文字体为 Times New Roman
+% \usepackage{ctex}
+\usepackage{fontspec}  % 用于设置字体
+\usepackage{titlesec}  % 用于自定义章节标题格式
+\usepackage{setspace}  % 用于设置行距
+\usepackage{graphicx}  % 用于支持中文字体的加载
+\usepackage{xeCJK}     % 处理中文字体
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{titletoc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usepackage[backend=biber,style=gb7714-2015,gbpub=false,gbnamefmt=lowercase,maxbibnames=99,gbcitelocal=chinese]{biblatex}
+\addbibresource[location=local]{reference.bib}
+
+% 设置页眉
+\pagestyle{fancy}
+
+% 设置论文的页面格式
+\geometry{
+	top=2.54cm,             
+	bottom=2.54cm,          
+	left=3.18cm,           
+	right=3.18cm,            
+	% bindingoffset=0.5cm,    
+}
+
+% 设置英文字体为Times New Roman
+\setmainfont{Times New Roman}
+\newfontface\timesnewroman{Times New Roman}
+
+% 设置图标题的格式
+\captionsetup[figure]{ 
+	font={small},         
+	labelfont={bf},          
+	singlelinecheck=false,  
+	justification=centering, 
+	skip=0.5\baselineskip, 
+}
+
+% 设置表格标题的格式
+\captionsetup[table]{
+	font={small},  
+	labelfont={bf},          
+	skip=1ex, 
+	justification=centering,  
+    aboveskip=0.5\baselineskip,  
+    belowskip=0.6\baselineskip,  
+}
+
+% 设置表格和图的编号格式 
+\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\renewcommand{\thetable}{\thechapter.\arabic{table}} 
+
+% 设置代码块的格式
+\lstset{
+	basicstyle=\ttfamily\fontspec{Times New Roman}, 
+	keywordstyle=\normalfont,  
+	commentstyle=\normalfont, 
+	stringstyle=\normalfont, 
+	showstringspaces=false, 
+	breaklines=true,  
+	frame=single, 
+	framerule=0.12mm,  
+	framesep=1mm, 
+}
+
+% 设置论文正文的section标题格式
+\titleformat{\section}[hang]     
+{\normalfont\bfseries\songti\fontsize{15}{17}\selectfont}
+{\thesection}{1em}{}
+
+\renewcommand{\thesection}{\arabic{section}}
+
+% 设置论文正文的subsection标题格式
+\titleformat{\subsection}[hang]   
+{\normalfont\bfseries\songti\fontsize{12}{16}\selectfont}
+{\thesubsection}{1em}{}
+
+\titlecontents{section}[3em]{\songti\zihao{4}\vspace{6pt}}{\contentslabel{1.6em}}{\hspace*{-4em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
+\titlecontents{subsection}[5em]{\songti\zihao{4}\vspace{5pt}}{\contentslabel{2.3em}}{\hspace*{-4em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
+
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+\begin{document}
+
+% 切换到正文的页面样式
+\pagestyle{mainmatter}
+% 让页码从1开始
+\setcounter{page}{1}
+
+\section{引言}
+
+这是正文示例。中文使用宋体，English text uses Times New Roman。
+数学公式示例：
+\[
+  \bm{x} \in \mathbb{R}^n, \quad \mathcal{F}(x) = x^2
+\]
+
+文章引用示例：文章\cite{wolf2018scanpy}，\citet{wolf2018scanpy}指出。
+
+\newpage
+\printbibliography
+
+\end{document}
