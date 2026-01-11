@@ -6,7 +6,7 @@
 
 ### Annotated Data (anndata, .h5ad文件)
 
-一种用于存储高维矩阵数据及其注释信息的数据结构，常用于存储细胞信息。类定义：
+一种用于存储高维矩阵数据及其注释信息的数据结构（[github](https://github.com/scverse/anndata)），常用于存储细胞信息。类定义：
 ```python
 class anndata.AnnData(X=None, obs=None, var=None, uns=None, *, obsm=None, varm=None, layers=None, raw=None, dtype=None, shape=None, filename=None, filemode=None, asview=False, obsp=None, varp=None, oidx=None, vidx=None)
 ```
