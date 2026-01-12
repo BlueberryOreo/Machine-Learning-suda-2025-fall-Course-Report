@@ -36,3 +36,47 @@ label = raw_data.obs['celltype']
 $$
 cv_i = \frac{\text{std}(y_i)}{\text{mean}(y_i)}
 $$
+
+### 细胞聚类评价指标
+
+#### NMI (归一化互信息)
+
+衡量聚类结果与真是标签之间的信息一致性。
+
+给定真实细胞划分 $U$，对于聚类结果 $V$，其互信息为
+$$
+MI(U, V) = \sum_{u\in U}\sum_{v\in V}p(u, v)\log\frac{p(u, v)}{p(u), p(v)}
+$$
+
+归一化
+$$
+NMI(U, V) = \frac{2\cdot MI(U, V)}{H(U)+H(V)}
+$$
+其中 $H(\cdot)$ 为信息熵。
+
+可调用sickit-learn中的`sklearn.metrics.normalized_mutual_info_score(labels_true, labels_pred, average_method)`计算（见 [doc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.normalized_mutual_info_score.html)）
+
+#### ARI (调整兰德指数)
+
+衡量细胞对层面上的聚类一致性。
+
+$$
+ARI = \frac{RI - E(RI)}{\max(RI) - E(RI)}
+$$
+其中 $RI$ 为兰德指数，$E(\cdot)$ 表示期望。
+
+可调用sickit-learn中的`sklearn.metrics.adjusted_rand_score(labels_true, labels_pred)`计算（见 [doc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html)）
+
+#### ACC (聚类准确率)
+
+衡量聚类标签与真实标签在最佳匹配下的一致比例。
+
+由于聚类后的类标签是无意义的，因此需要将聚类后的类标签映射到真实标签再进行计算。给定真实标签 $U$，对于聚类结果 $V$，定义准确率
+$$
+ACC = \frac{1}{N}\sum_{i=1}^N \mathbf{1}\{u_i=\text{map}(v_i)\}
+$$
+其中 $\text{map}(\cdot)$ 为将聚类簇映射到真实细胞类型的最佳映射函数，通常可基于匈牙利算法得到。
+
+### 传统聚类方法
+
+KNN建图+Leiden算法进行图聚类。参考[doc](https://www.sc-best-practices.org/cellular_structure/clustering.html?utm_source=chatgpt.com#)。
