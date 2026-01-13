@@ -26,7 +26,7 @@
 
 * scRNA-seq (Single-Cell RNA Sequencing): 单细胞RNA测序
 * QC (Quality Control): 质量控制
-* UMI (Unique Molecular Identifiers): 独特分子标识/分子条形码
+* UMI (Unique Molecular Identifiers): 独特分子标识
 * mitochondrial: 线粒体，简称MT/mt
 * ribosomal: 核糖体，简称ribo
 * ribosomal protein S: 核糖体蛋白S基因，简称RPS
@@ -61,60 +61,7 @@ raw_data.X = processed_data
 label = raw_data.obs['celltype']
 ```
 
-### 高变基因
-
-在不同细胞中表达量具有显著差异的基因。通常采用基因表达水平的变异系数（coefficient of variation）来判断高变基因。
-
-记 $y_i\in \mathbb{R}^m$ 是由基因 $i$ 在各个细胞中表达值构成的 $m$ 维向量，则基因 $i$ 的变异系数 $cv_i$ 为：
-$$
-cv_i = \frac{\text{std}(y_i)}{\text{mean}(y_i)}
-$$
-
-### 细胞聚类评价指标
-
-#### NMI (归一化互信息)
-
-衡量聚类结果与真是标签之间的信息一致性。
-
-给定真实细胞划分 $U$，对于聚类结果 $V$，其互信息为
-$$
-MI(U, V) = \sum_{u\in U}\sum_{v\in V}p(u, v)\log\frac{p(u, v)}{p(u), p(v)}
-$$
-
-归一化
-$$
-NMI(U, V) = \frac{2\cdot MI(U, V)}{H(U)+H(V)}
-$$
-其中 $H(\cdot)$ 为信息熵。
-
-可调用sickit-learn中的`sklearn.metrics.normalized_mutual_info_score(labels_true, labels_pred, average_method)`计算（见 [doc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.normalized_mutual_info_score.html)）
-
-#### ARI (调整兰德指数)
-
-衡量细胞对层面上的聚类一致性。
-
-$$
-ARI = \frac{RI - E(RI)}{\max(RI) - E(RI)}
-$$
-其中 $RI$ 为兰德指数，$E(\cdot)$ 表示期望。
-
-可调用sickit-learn中的`sklearn.metrics.adjusted_rand_score(labels_true, labels_pred)`计算（见 [doc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html)）
-
-#### ACC (聚类准确率)
-
-衡量聚类标签与真实标签在最佳匹配下的一致比例。
-
-由于聚类后的类标签是无意义的，因此需要将聚类后的类标签映射到真实标签再进行计算。给定真实标签 $U$，对于聚类结果 $V$，定义准确率
-$$
-ACC = \frac{1}{N}\sum_{i=1}^N \mathbf{1}\{u_i=\text{map}(v_i)\}
-$$
-其中 $\text{map}(\cdot)$ 为将聚类簇映射到真实细胞类型的最佳映射函数，通常可基于匈牙利算法得到。
-
-### 传统细胞聚类方法
-
-PCA降维（特征提取）+ KNN建图 + Leiden算法进行图聚类。参考 [doc1](https://www.sc-best-practices.org/cellular_structure/clustering.html?utm_source=chatgpt.com#) [scanpy-clustering](https://scanpy.readthedocs.io/en/stable/tutorials/basics/clustering.html)。
-
-### scRNA-seq的流程
+### scRNA-seq的实验流程
 
 scRNA-seq 的流程可以理解为：
 
@@ -174,6 +121,61 @@ scRNA-seq 的流程可以理解为：
 👉 再进入：邻接图构建、聚类、UMAP/tSNE
 
 可参考 [scanpy-clustering](https://scanpy.readthedocs.io/en/stable/tutorials/basics/clustering.html)。
+
+### 高变基因
+
+在不同细胞中表达量具有显著差异的基因。通常采用基因表达水平的变异系数（coefficient of variation）来判断高变基因。
+
+记 $y_i\in \mathbb{R}^m$ 是由基因 $i$ 在各个细胞中表达值构成的 $m$ 维向量，则基因 $i$ 的变异系数 $cv_i$ 为：
+$$
+cv_i = \frac{\text{std}(y_i)}{\text{mean}(y_i)}
+$$
+
+可调用 scanpy 中的 `pp.highly_variable_genes` 筛选出高变基因，例如 `sc.pp.highly_variable_genes(adata, n_top_genes=2000)`。
+
+### 细胞聚类评价指标
+
+#### NMI (归一化互信息)
+
+衡量聚类结果与真是标签之间的信息一致性。
+
+给定真实细胞划分 $U$，对于聚类结果 $V$，其互信息为
+$$
+MI(U, V) = \sum_{u\in U}\sum_{v\in V}p(u, v)\log\frac{p(u, v)}{p(u), p(v)}
+$$
+
+归一化
+$$
+NMI(U, V) = \frac{2\cdot MI(U, V)}{H(U)+H(V)}
+$$
+其中 $H(\cdot)$ 为信息熵。
+
+可调用sickit-learn中的`sklearn.metrics.normalized_mutual_info_score(labels_true, labels_pred, average_method)`计算（见 [doc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.normalized_mutual_info_score.html)）
+
+#### ARI (调整兰德指数)
+
+衡量细胞对层面上的聚类一致性。
+
+$$
+ARI = \frac{RI - E(RI)}{\max(RI) - E(RI)}
+$$
+其中 $RI$ 为兰德指数，$E(\cdot)$ 表示期望。
+
+可调用sickit-learn中的`sklearn.metrics.adjusted_rand_score(labels_true, labels_pred)`计算（见 [doc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html)）
+
+#### ACC (聚类准确率)
+
+衡量聚类标签与真实标签在最佳匹配下的一致比例。
+
+由于聚类后的类标签是无意义的，因此需要将聚类后的类标签映射到真实标签再进行计算。给定真实标签 $U$，对于聚类结果 $V$，定义准确率
+$$
+ACC = \frac{1}{N}\sum_{i=1}^N \mathbf{1}\{u_i=\text{map}(v_i)\}
+$$
+其中 $\text{map}(\cdot)$ 为将聚类簇映射到真实细胞类型的最佳映射函数，通常可基于匈牙利算法得到。
+
+### 传统细胞聚类方法
+
+PCA降维（特征提取）+ KNN建图 + Leiden算法进行图聚类。参考 [doc1](https://www.sc-best-practices.org/cellular_structure/clustering.html?utm_source=chatgpt.com#) [scanpy-clustering](https://scanpy.readthedocs.io/en/stable/tutorials/basics/clustering.html)。
 
 ### scvi-tools
 
