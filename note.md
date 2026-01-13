@@ -98,7 +98,7 @@ scRNA-seq 的流程可以理解为：
 
 👉 再进入：邻接图构建、聚类、UMAP/tSNE
 
-可参考 [scanpy-clustering](https://scanpy.readthedocs.io/en/stable/tutorials/basics/clustering.html)。
+可参考 [scanpy-clustering](https://scanpy.readthedocs.io/en/stable/tutorials/basics/clustering.html)，[scvi-tools](https://docs.scvi-tools.org/en/stable/tutorials/notebooks/use_cases/preprocessing.html)。
 
 ### 高变基因
 
