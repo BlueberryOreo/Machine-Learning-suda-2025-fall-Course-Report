@@ -10,9 +10,9 @@
 
 ## 数据集
 
-[Single-cell transcriptomics of 20 mouse organs creates a Tabula Muris](https://www.nature.com/articles/s41586-018-0590-4)
+[Single-cell transcriptomics of 20 mouse organs creates a Tabula Muris](./reference/s41586-018-0590-4.pdf)
 
-[Evolution of pallium, hippocampus, and cortical cell types revealed by single-cell transcriptomics in reptiles](https://www.science.org/doi/10.1126/science.aar4237)
+[Evolution of pallium, hippocampus, and cortical cell types revealed by single-cell transcriptomics in reptiles](./reference/science.aar4237.pdf)
 
 [百度网盘链接](https://pan.baidu.com/s/1n9cgGDf3gGvZ16pdgnr7ng) 提取码：ruca
 
