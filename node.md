@@ -170,3 +170,19 @@ n_genes_by_counts 图：每个细胞检测到的基因数。
 total_counts 图：每个细胞的UMI数。
 
 pct_counts_mt 图：线粒体基因占比。
+
+### 零膨胀负二项分布 (Zero-inflated Negative Binomial distribution, ZINB distribution)
+
+假设数据由两个混合过程产生：
+
+* 过程1：一定为0的状态（零膨胀部分）：以 $\pi$ 的概率直接生成 $0$
+* 过程2：计数生成形态：以概率 $1-\pi$ 服从负二项分布（Negative Binomial, NB）产生 $0, 1, 2, 3, \dots$
+
+数学形式：记随机变量 $Y$，则有
+$$
+P(Y=0) = \pi + (1-\pi)\cdot\text{NB}(0\mid\mu, \theta) \\
+P(Y=y) = (1-\pi)\cdot\text{NB}(y\mid\mu, \theta),\; y=1, 2, \dots
+$$
+其中 $\pi$ 为零膨胀概率，$\mu$ 为负二项分布的均值，$\theta$ 代表离散参数。
+
+ZINB 分布适用于数据中 $0$ 特别多，而且非零部分还存在过度离散的情况（方差远大于均值）。
