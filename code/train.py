@@ -9,6 +9,7 @@ from easydict import EasyDict as edict
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
+from modules.clustering import run_cluster, visualize
 from utils.dataset import H5adDataset
 from utils.utils import load_model, seed_everything
 from utils.evaluate import evaluate_clustering
@@ -34,9 +35,12 @@ def parse_args():
             setattr(args, key, edict(value) if isinstance(value, dict) else value)
     
     # Create output directory with timestamp
-    nowtime = datetime.datetime.now().strftime("%Y%m%d%H%M")
-    args.train.out_dir = os.path.join(args.out_dir, f"{nowtime}")
-    os.makedirs(args.train.out_dir, exist_ok=True)
+    if args.resume:
+        args.train.out_dir = os.path.dirname(args.resume)
+    else:
+        nowtime = datetime.datetime.now().strftime("%Y%m%d%H%M")
+        args.train.out_dir = os.path.join(args.out_dir, f"{nowtime}")
+        os.makedirs(args.train.out_dir, exist_ok=True)
 
     return args
 
@@ -100,12 +104,17 @@ def train(model, optimizer, train_loader, device, config):
 
 @torch.no_grad()
 def eval(model, dataset, device, config):
+    eval_config = config.train
+    cluster_config = config.cluster
+
     # Use cluster to eval the latent representations
     model.eval()
-    dataloader = DataLoader(dataset, batch_size=config.batch_size, shuffle=False)
+
+    # Inference all cells to get latent representations
+    dataloader = DataLoader(dataset, batch_size=eval_config.batch_size, shuffle=False)
     all_z = []
 
-    for batch_idx, (data, type) in enumerate(tqdm(dataloader, desc="Evaluating Batches", disable=True)):
+    for batch_idx, (data, type) in enumerate(tqdm(dataloader, desc="Evaluating Batches", disable=False)):
         data = data.to(device)
         output = model(data)
         z = output["z"]
@@ -113,6 +122,21 @@ def eval(model, dataset, device, config):
     
     all_z = torch.cat(all_z, dim=0).cpu().numpy()
     dataset.adata.obsm["latent"] = all_z
+
+    pred_labels = run_cluster(dataset.adata, config=cluster_config, use_rep="latent")
+    if cluster_config.save_cluster_results:
+        dataset.adata.obs["predicted_labels"] = pred_labels.astype(str)
+        cluster_results_path = os.path.join(eval_config.out_dir, "cluster_results.csv")
+        dataset.adata.obs.to_csv(cluster_results_path)
+        print(f"Saved clustering results at {cluster_results_path}")
+    
+    results = evaluate_clustering(true_labels=dataset.cell_types, pred_labels=pred_labels)
+    print("Clustering Evaluation Results:", results)
+
+    if cluster_config.visualize_clusters:
+        print("Generating UMAP visualization of clusters...")
+        output_path = os.path.join(eval_config.out_dir, f"{cluster_config.method}_umap_clusters.{cluster_config.file_type}")
+        visualize(dataset.adata, output_path, method=cluster_config.method, use_rep="latent", legend_loc="on data", display_gt=cluster_config.display_gt)
 
 
 def main(args):
@@ -145,10 +169,10 @@ def main(args):
     )
 
     if args.eval:
-        eval(model, dataset, device, args.train)
+        eval(model, dataset, device, args)
     else:
         train(model, optimizer, train_loader, device, args.train)
-        eval(model, dataset, device, args.train)
+        eval(model, dataset, device, args)
 
 
 if __name__ == "__main__":
