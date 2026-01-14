@@ -61,11 +61,10 @@ class VAE(nn.Module):
           If AE : {"z": z}
         """
         if self.is_vae:
-            mu, logvar = self.encoder(x)
-            z = self.reparameterize(mu, logvar)
+            mu, logvar, z = self.encoder(x)
             return {"mu": mu, "logvar": logvar, "z": z}
         else:
-            z, _ = self.encoder(x)
+            _, _, z = self.encoder(x)
             return {"z": z}
 
     def decode(self, z: torch.Tensor) -> torch.Tensor:
@@ -85,23 +84,17 @@ class VAE(nn.Module):
             out["logvar"] = enc["logvar"]
         return out
 
-    def sample(self, x: torch.Tensor) -> Dict[str, torch.Tensor]:
-        """
-        For compatibility with your original API: 'sample' means encode.
-        """
-        return self.encode(x)
-
     def sample_prior(self, n: int, device: Optional[torch.device] = None) -> torch.Tensor:
         """Sample z ~ N(0, I) and decode to x."""
         device = device or next(self.parameters()).device
         z = torch.randn(n, self.latent_dim, device=device)
         return self.decode(z)
 
-    def loss(self, x: torch.Tensor, out: Optional[Dict[str, torch.Tensor]] = None) -> Dict[str, torch.Tensor]:
+    def loss(self, x: torch.Tensor, out: Optional[Dict[str, torch.Tensor]] = None) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Compute losses:
           recon + beta * kl (if VAE)
-        Returns dict of scalar tensors: total, recon, kl
+        Returns tuple of scalar tensors: total, recon, kl
         """
         if out is None:
             out = self.forward(x)
@@ -121,7 +114,7 @@ class VAE(nn.Module):
             kl = -0.5 * torch.mean(1.0 + logvar - mu.pow(2) - logvar.exp())
 
         total = recon + self.beta_kl * kl
-        return {"total": total, "recon": recon, "kl": kl}
+        return total, recon, kl
 
 
 class ZINBVAE(nn.Module):

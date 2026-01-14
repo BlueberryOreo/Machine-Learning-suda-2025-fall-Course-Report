@@ -2,8 +2,11 @@
 import os
 import importlib
 import torch
+import random
+import numpy as np
 
-def load_model(model_name: str):
+
+def load_model(model_name: str) -> torch.nn.Module:
     """
     Dynamically load a model class from modules.models by name.
     Args:
@@ -20,3 +23,14 @@ def load_model(model_name: str):
         raise ValueError(f"{model_name} is not a subclass of torch.nn.Module")
     model_class = getattr(module, model_name)
     return model_class
+
+
+def seed_everything(seed=42):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    # torch.backends.cudnn.benchmark=False

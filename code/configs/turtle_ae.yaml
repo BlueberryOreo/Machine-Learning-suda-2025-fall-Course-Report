@@ -1,5 +1,6 @@
 
 vae:
+  model_name: "VAE"  # "VAE" | "ZINBVAE"
   input_dim: 2000
   latent_dim: 128
   n_hidden: 1024
@@ -14,12 +15,10 @@ dataset:
   data_path: "../data/Tosches_turtle_processed.h5ad"
 
 train:
-  model_class: "VAE"  # "VAE" | "ZINBVAE"
   batch_size: 64
-  learning_rate: 1e-3
+  lr: 1e-3
   num_epochs: 100
-  log_interval: 10
-  save_interval: 10
-  device: "cuda"  # "cuda" | "cpu"
+  log_interval: 20
+  save_interval: 20
+  save_loss_curve: true
   seed: 42
-  
