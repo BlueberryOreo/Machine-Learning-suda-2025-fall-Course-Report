@@ -7,4 +7,5 @@ python preprocess/preprocess.py \
     --ribosomal_prefixes RPS RPL \
     --n_genes_threshold 6000 \
     --pct_counts_mt_threshold 0.9 \
+    --hvgs_n 2000 \
     --save_violin
