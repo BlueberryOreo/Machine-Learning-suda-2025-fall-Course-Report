@@ -56,11 +56,16 @@ class VAE(nn.Module):
     def encode(self, x: torch.Tensor) -> Dict[str, torch.Tensor]:
         """
         Returns:
-          mu, logvar, z
-        1. If is_vae=True, z is sampled from N(mu, var)
-        2. If is_vae=False, z = fc_z(backbone(x))
+          If VAE: {"mu": mu, "logvar": logvar, "z": z}
+          If AE : {"z": z}
         """
-        return self.encoder(x)
+        if self.is_vae:
+            mu, logvar = self.encoder(x)
+            z = self.reparameterize(mu, logvar)
+            return {"mu": mu, "logvar": logvar, "z": z}
+        else:
+            z, _ = self.encoder(x)
+            return {"z": z}
 
     def decode(self, z: torch.Tensor) -> torch.Tensor:
         return self.decoder(z)
