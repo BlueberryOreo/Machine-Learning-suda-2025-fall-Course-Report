@@ -111,10 +111,10 @@ def eval(model, dataset, device, config):
     model.eval()
 
     # Inference all cells to get latent representations
-    dataloader = DataLoader(dataset, batch_size=eval_config.batch_size, shuffle=False)
+    eval_loader = DataLoader(dataset, batch_size=eval_config.batch_size, shuffle=False)
     all_z = []
 
-    for batch_idx, (data, type) in enumerate(tqdm(dataloader, desc="Evaluating Batches", disable=False)):
+    for batch_idx, (data, type) in enumerate(tqdm(eval_loader, desc="Evaluating Batches", disable=False)):
         data = data.to(device)
         output = model(data)
         z = output["z"]
@@ -123,6 +123,7 @@ def eval(model, dataset, device, config):
     all_z = torch.cat(all_z, dim=0).cpu().numpy()
     dataset.adata.obsm["latent"] = all_z
 
+    cluster_config.n_clusters = len(set(dataset.cell_types)) if cluster_config.n_clusters == "auto" else cluster_config.n_clusters
     pred_labels = run_cluster(dataset.adata, config=cluster_config, use_rep="latent")
     if cluster_config.save_cluster_results:
         dataset.adata.obs["predicted_labels"] = pred_labels.astype(str)

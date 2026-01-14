@@ -28,7 +28,7 @@ cluster:
   visualize_clusters: true
   method: "kmeans"  # "kmeans" | "leiden"
   # for kmeans
-  n_clusters: 8
+  n_clusters: "auto"  # int or "auto"
   n_init: 50
   random_state: 0
   # for leiden
