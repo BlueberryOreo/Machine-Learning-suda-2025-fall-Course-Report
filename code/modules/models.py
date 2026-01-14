@@ -25,6 +25,7 @@ class VAE(nn.Module):
         recon_loss: str = "mse",     # "mse" | "bce"
         out_activation: str = "identity",  # use "sigmoid" if recon_loss="bce"
         beta_kl: float = 1.0,        # beta-VAE
+        **kwargs,
     ):
         super().__init__()
         self.input_dim = input_dim
@@ -89,12 +90,6 @@ class VAE(nn.Module):
         For compatibility with your original API: 'sample' means encode.
         """
         return self.encode(x)
-
-    def reconstruct(self, z: torch.Tensor) -> torch.Tensor:
-        """
-        For compatibility with your original API: decode latent to x.
-        """
-        return self.decode(z)
 
     def sample_prior(self, n: int, device: Optional[torch.device] = None) -> torch.Tensor:
         """Sample z ~ N(0, I) and decode to x."""
