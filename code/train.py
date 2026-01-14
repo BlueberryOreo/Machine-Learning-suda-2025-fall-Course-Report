@@ -11,13 +11,21 @@ import matplotlib.pyplot as plt
 
 from utils.dataset import H5adDataset
 from utils.utils import load_model, seed_everything
+from utils.evaluate import evaluate_clustering
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train VAE/ZINBVAE model")
     parser.add_argument("--config", type=str, required=True, help="Path to config YAML file")
     parser.add_argument("--out_dir", type=str, required=True, help="Directory to save trained model and logs")
+    parser.add_argument("--eval", action='store_true', help="Whether to run evaluation after training")
+    parser.add_argument("--resume", type=str, default=None, help="Path to a checkpoint to resume training")
     args = parser.parse_args()
+
+    assert os.path.exists(args.config), f"Config file {args.config} does not exist."
+    if args.eval:
+        assert args.resume is not None, "Evaluation requires a trained model checkpoint. Please provide --resume."
+        assert os.path.exists(args.resume), f"Checkpoint file {args.resume} does not exist."
 
     # Load config from YAML file
     with open(args.config, 'r') as f:
@@ -50,11 +58,9 @@ def train_epoch(model, dataloader, optimizer, device, config):
     return avg_loss
 
 
-def train(model, train_loader, device, config):
-    # Set optimizer
-    optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
+def train(model, optimizer, train_loader, device, config):
     losses = []
-    bar = tqdm(range(1, config.num_epochs + 1))
+    bar = tqdm(range(config.start_epoch, config.num_epochs + 1))
 
     for epoch in bar:
         avg_loss = train_epoch(model, train_loader, optimizer, device, config)
@@ -64,10 +70,20 @@ def train(model, train_loader, device, config):
         # Save model at intervals
         if epoch % config.save_interval == 0 and epoch < config.num_epochs:
             model_path = os.path.join(config.out_dir, f"model_epoch_{epoch}.pt")
-            torch.save(model.state_dict(), model_path)
+            state_dict = {
+                "epoch": epoch,
+                "model_state_dict": model.state_dict(),
+                "optimizer_state_dict": optimizer.state_dict(),
+            }
+            torch.save(state_dict, model_path)
             # print(f"Saved model checkpoint at {model_path}")
     
-    torch.save(model.state_dict(), os.path.join(config.out_dir, "model_final.pt"))
+    state_dict = {
+        "epoch": epoch,
+        "model_state_dict": model.state_dict(),
+        "optimizer_state_dict": optimizer.state_dict(),
+    }
+    torch.save(state_dict, os.path.join(config.out_dir, "model_final.pt"))
     print("Training complete. Saved final model.")
 
     if config.save_loss_curve:
@@ -81,20 +97,58 @@ def train(model, train_loader, device, config):
         plt.savefig(loss_curve_path)
         print(f"Saved loss curve at {loss_curve_path}")
 
+
+@torch.no_grad()
+def eval(model, dataset, device, config):
+    # Use cluster to eval the latent representations
+    model.eval()
+    dataloader = DataLoader(dataset, batch_size=config.batch_size, shuffle=False)
+    all_z = []
+
+    for batch_idx, (data, type) in enumerate(tqdm(dataloader, desc="Evaluating Batches", disable=True)):
+        data = data.to(device)
+        output = model(data)
+        z = output["z"]
+        all_z.append(z.detach())
+    
+    all_z = torch.cat(all_z, dim=0).cpu().numpy()
+    dataset.adata.obsm["latent"] = all_z
+
+
 def main(args):
     # Seed everything for reproducibility
     seed_everything(args.train.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Load model class
-    model = load_model(args.vae.model_name)(**args.vae).to(device)
-    print(model)
+    # Load model and set up optimizer
+    model = load_model(args.vae.model_name)(**args.vae)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.train.lr)
+
+    if args.resume:
+        checkpoint = torch.load(args.resume, map_location="cpu")
+        model.load_state_dict(checkpoint["model_state_dict"])
+        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        args.train.start_epoch = checkpoint["epoch"] + 1
+        print(f"Resumed model from {args.resume}, epoch={checkpoint['epoch']}")
+    else:
+        args.train.start_epoch = 1
+    
+    model.to(device)
 
     # Load dataset
     dataset = H5adDataset(args.dataset.data_path)
-    train_loader = DataLoader(dataset, batch_size=args.train.batch_size, shuffle=True)
+    train_loader = DataLoader(
+        dataset, 
+        batch_size=args.train.batch_size, 
+        num_workers=args.train.num_workers, 
+        shuffle=True
+    )
 
-    train(model, train_loader, device, args.train)
+    if args.eval:
+        eval(model, dataset, device, args.train)
+    else:
+        train(model, optimizer, train_loader, device, args.train)
+        eval(model, dataset, device, args.train)
 
 
 if __name__ == "__main__":
