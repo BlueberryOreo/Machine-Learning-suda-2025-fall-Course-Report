@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-from typing import Dict, Optional
+from typing import Dict, Optional, Iterable, Callable
 
 from modules.components import Encoder, DecoderSCVI, SimpleEncoder, SimpleDecoder
 
@@ -121,7 +121,42 @@ class ZINBVAE(nn.Module):
     """
     A Variational Autoencoder (VAE) with Zero-Inflated Negative Binomial (ZINB) likelihood for single-cell RNA-seq data.
     """
-    def __init__(self, input_dim, latent_dim):
+    def __init__(self, 
+            n_input: int,
+            n_output: int,
+            n_cat_list: Iterable[int] = None,
+            n_layers: int = 1,
+            n_hidden: int = 128,
+            dropout_rate: float = 0.1,
+            distribution: str = "normal",
+            var_eps: float = 1e-4,
+            var_activation: Callable | None = None,
+            return_dist: bool = False
+        ):
         super(ZINBVAE, self).__init__()
         # Encoder
-        
+        self.encoder = Encoder(
+            n_input=n_input,
+            n_output=n_output,
+            n_cat_list=n_cat_list,
+            n_layers=n_layers,
+            n_hidden=n_hidden,
+            dropout_rate=dropout_rate,
+            distribution=distribution,
+            var_eps=var_eps,
+            var_activation=var_activation,
+            return_dist=return_dist
+        )
+
+        # Decoder
+        self.decoder = DecoderSCVI(
+            n_input=n_output,
+            n_output=n_input,
+            n_cat_list=n_cat_list,
+            n_layers=n_layers,
+            n_hidden=n_hidden,
+            inject_covariates=True,
+            use_batch_norm=False,
+            use_layer_norm=False,
+            scale_activation="softmax",
+        )

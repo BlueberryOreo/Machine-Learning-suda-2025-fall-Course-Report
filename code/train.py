@@ -123,6 +123,7 @@ def eval(model, dataset, device, config):
     all_z = torch.cat(all_z, dim=0).cpu().numpy()
     dataset.adata.obsm["latent"] = all_z
 
+    # Cluster
     cluster_config.n_clusters = len(set(dataset.cell_types)) if cluster_config.n_clusters == "auto" else cluster_config.n_clusters
     pred_labels = run_cluster(dataset.adata, config=cluster_config, use_rep="latent")
     if cluster_config.save_cluster_results:
@@ -131,9 +132,11 @@ def eval(model, dataset, device, config):
         dataset.adata.obs.to_csv(cluster_results_path)
         print(f"Saved clustering results at {cluster_results_path}")
     
+    # Evaluate clustering
     results = evaluate_clustering(true_labels=dataset.cell_types, pred_labels=pred_labels)
     print("Clustering Evaluation Results:", results)
 
+    # Save visualization
     if cluster_config.visualize_clusters:
         print("Generating UMAP visualization of clusters...")
         output_path = os.path.join(eval_config.out_dir, f"{cluster_config.method}_umap_clusters.{cluster_config.file_type}")
