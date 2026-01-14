@@ -18,7 +18,7 @@ class VAE(nn.Module):
         self,
         input_dim: int,
         latent_dim: int,
-        n_hidden: int = 128,
+        n_hidden: int = 1024,
         n_layers: int = 2,
         dropout_rate: float = 0.1,
         is_vae: bool = True,

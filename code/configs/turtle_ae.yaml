@@ -1,0 +1,18 @@
+
+vae:
+  input_dim: 2000
+  latent_dim: 128
+  n_hidden: 1024
+  n_layers: 2
+  dropout_rate: 0.1
+  is_vae: false
+  recon_loss: "mse" # "mse" | "bce"
+  out_activation: "identity"  # use "sigmoid" if recon_loss="bce"
+  beta_kl: 1.0  # beta-VAE
+
+
+dataset:
+
+
+train:
+
