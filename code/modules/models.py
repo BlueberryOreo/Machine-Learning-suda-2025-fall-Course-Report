@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-from typing import Dict, Optional, Iterable, Callable
+from typing import Dict, Optional, Iterable, Callable, Literal
 
 from modules.components import Encoder, DecoderSCVI, SimpleEncoder, SimpleDecoder
 
@@ -25,6 +25,7 @@ class VAE(nn.Module):
         recon_loss: str = "mse",     # "mse" | "bce"
         out_activation: str = "identity",  # use "sigmoid" if recon_loss="bce"
         beta_kl: float = 1.0,        # beta-VAE
+        contrastive_loss: Optional[Callable] = None,
         **kwargs,
     ):
         super().__init__()
@@ -33,6 +34,7 @@ class VAE(nn.Module):
         self.is_vae = is_vae
         self.recon_loss = recon_loss
         self.beta_kl = beta_kl
+        self.contrastive_loss = contrastive_loss or (lambda z: 0.0)
 
         self.encoder = SimpleEncoder(
             input_dim=input_dim,
@@ -90,7 +92,7 @@ class VAE(nn.Module):
         z = torch.randn(n, self.latent_dim, device=device)
         return self.decode(z)
 
-    def loss(self, x: torch.Tensor, out: Optional[Dict[str, torch.Tensor]] = None) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def loss(self, x: torch.Tensor, lambda_contrastive: float, out: Optional[Dict[str, torch.Tensor]] = None) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Compute losses:
           recon + beta * kl (if VAE)
@@ -113,6 +115,10 @@ class VAE(nn.Module):
             # KL(q(z|x)||p(z)) for diagonal Gaussian
             kl = -0.5 * torch.mean(1.0 + logvar - mu.pow(2) - logvar.exp())
 
+        if lambda_contrastive > 0:
+            z = out["z"]
+            recon += lambda_contrastive * self.contrastive_loss(z)
+
         total = recon + self.beta_kl * kl
         return total, recon, kl
 
@@ -128,12 +134,28 @@ class ZINBVAE(nn.Module):
             n_layers: int = 1,
             n_hidden: int = 128,
             dropout_rate: float = 0.1,
-            distribution: str = "normal",
-            var_eps: float = 1e-4,
+            latent_distribution: Literal["normal", "ln"] = "normal",
+            deeply_inject_covariates: bool = True,
+            use_batch_norm: Literal["encoder", "decoder", "none", "both"] = "both",
+            use_layer_norm: Literal["encoder", "decoder", "none", "both"] = "none",
+            log_variational: bool = True,
             var_activation: Callable | None = None,
-            return_dist: bool = False
+            use_size_factor_key: bool = False,
+            **kwargs,
         ):
         super(ZINBVAE, self).__init__()
+        self.n_input = n_input
+        self.n_output = n_output
+        self.n_cat_list = n_cat_list
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.log_variational = log_variational
+
+        use_batch_norm_encoder = use_batch_norm == "encoder" or use_batch_norm == "both"
+        use_batch_norm_decoder = use_batch_norm == "decoder" or use_batch_norm == "both"
+        use_layer_norm_encoder = use_layer_norm == "encoder" or use_layer_norm == "both"
+        use_layer_norm_decoder = use_layer_norm == "decoder" or use_layer_norm == "both"
+
         # Encoder
         self.encoder = Encoder(
             n_input=n_input,
@@ -142,21 +164,56 @@ class ZINBVAE(nn.Module):
             n_layers=n_layers,
             n_hidden=n_hidden,
             dropout_rate=dropout_rate,
-            distribution=distribution,
-            var_eps=var_eps,
+            distribution=latent_distribution,
+            inject_covariates=deeply_inject_covariates,
+            use_batch_norm=use_batch_norm_encoder,
+            use_layer_norm=use_layer_norm_encoder,
             var_activation=var_activation,
-            return_dist=return_dist
+            return_dist=True,
+        )
+
+        # l encoder goes from n_input-dimensional data to 1-d library size
+        self.l_encoder = Encoder(
+            n_input,
+            1,
+            n_layers=1,
+            n_cat_list=n_cat_list,
+            n_hidden=n_hidden,
+            dropout_rate=dropout_rate,
+            inject_covariates=deeply_inject_covariates,
+            use_batch_norm=use_batch_norm_encoder,
+            use_layer_norm=use_layer_norm_encoder,
+            var_activation=var_activation,
+            return_dist=True,
         )
 
         # Decoder
         self.decoder = DecoderSCVI(
-            n_input=n_output,
-            n_output=n_input,
+            n_output,
+            n_input,
             n_cat_list=n_cat_list,
             n_layers=n_layers,
             n_hidden=n_hidden,
-            inject_covariates=True,
-            use_batch_norm=False,
-            use_layer_norm=False,
-            scale_activation="softmax",
+            inject_covariates=deeply_inject_covariates,
+            use_batch_norm=use_batch_norm_decoder,
+            use_layer_norm=use_layer_norm_decoder,
+            scale_activation="softplus" if use_size_factor_key else "softmax",
         )
+
+
+if __name__ == "__main__":
+    ae = VAE(
+        input_dim=2000,
+        latent_dim=128,
+        n_hidden=1024,
+        n_layers=2,
+        dropout_rate=0.1,
+        is_vae=False,
+        recon_loss="mse",
+        out_activation="identity",
+        beta_kl=1.0,
+    )
+
+    x_input = torch.randn(16, 2000)
+    out = ae(x_input)
+    print(out["z"].shape)

@@ -1183,3 +1183,11 @@ class SimpleDecoder(nn.Module):
         if self.out_activation == "sigmoid":
             x_hat = torch.sigmoid(x_hat)
         return x_hat
+    
+
+if __name__ == "__main__":
+    encoder = Encoder(
+        n_input=2000,
+        n_output=10,
+    )
+    print(encoder)

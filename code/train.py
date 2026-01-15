@@ -1,6 +1,7 @@
 
 import os
 from ruamel.yaml import YAML
+import json
 import torch
 import argparse
 import datetime
@@ -8,10 +9,11 @@ from torch.utils.data import DataLoader
 from easydict import EasyDict as edict
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from functools import partial
 
-from modules.clustering import run_cluster, visualize
+from modules.clustering import run_cluster, visualize, knn_graph_contrastive_loss
 from utils.dataset import H5adDataset
-from utils.utils import load_model, seed_everything
+from utils.utils import *
 from utils.evaluate import evaluate_clustering
 
 
@@ -41,6 +43,12 @@ def parse_args():
         nowtime = datetime.datetime.now().strftime("%Y%m%d%H%M")
         args.train.out_dir = os.path.join(args.out_dir, f"{nowtime}")
         os.makedirs(args.train.out_dir, exist_ok=True)
+    
+    print(f"Outputs will be saved to: {args.train.out_dir}")
+    # Save config to output directory
+    config_save_path = os.path.join(args.train.out_dir, "config_used.json")
+    with open(config_save_path, 'w') as f:
+        json.dump(config, f, indent=4)
 
     return args
 
@@ -53,7 +61,7 @@ def train_epoch(model, dataloader, optimizer, device, config):
         optimizer.zero_grad()
         output = model(data)
         
-        loss, _, _ = model.loss(data, output)
+        loss, _, _ = model.loss(data, lambda_contrastive=config.lambda_contrastive, out=output)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
@@ -66,7 +74,24 @@ def train(model, optimizer, train_loader, device, config):
     losses = []
     bar = tqdm(range(config.start_epoch, config.num_epochs + 1))
 
+    if config.use_contrastive:
+        # create a lambda scheduler for contrastive loss weight
+        lambda_scheduler = LinearWarmupLambda(
+            lambda_max=config.contrastive_config.lambda_max,
+            warmup_epochs=config.contrastive_config.warmup_epochs,
+            ramp_epochs=config.contrastive_config.ramp_epochs,
+        )
+
+        # set the model's contrastive loss function with partial
+        model.contrastive_loss = partial(
+            knn_graph_contrastive_loss,
+            **config.contrastive_config
+        )
+    else:
+        lambda_scheduler = lambda epoch: 0.0
+
     for epoch in bar:
+        config.lambda_contrastive = lambda_scheduler(epoch) # update lambda for this epoch
         avg_loss = train_epoch(model, train_loader, optimizer, device, config)
         bar.desc = f"Epoch {epoch}/{config.num_epochs} - Loss: {avg_loss:.4f}"
         losses.append(avg_loss)
@@ -149,8 +174,11 @@ def main(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load model and set up optimizer
+    print("Loading model...")
     model = load_model(args.vae.model_name)(**args.vae)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.train.lr)
+    param_cnt = parameter_count(model)
+    print(f"Model loaded with {param_cnt['total']} parameters. Trainable: {param_cnt['trainable']}.")
 
     if args.resume:
         checkpoint = torch.load(args.resume, map_location="cpu")
@@ -160,10 +188,11 @@ def main(args):
         print(f"Resumed model from {args.resume}, epoch={checkpoint['epoch']}")
     else:
         args.train.start_epoch = 1
-    
+    print(f"Starting training from epoch {args.train.start_epoch}")
     model.to(device)
 
     # Load dataset
+    print(f"Loading dataset from {args.dataset.data_path}...")
     dataset = H5adDataset(args.dataset.data_path)
     train_loader = DataLoader(
         dataset, 
@@ -171,6 +200,7 @@ def main(args):
         num_workers=args.train.num_workers, 
         shuffle=True
     )
+    print(f"Dataset loaded with {len(dataset)} cells and {dataset.n_genes} genes.")
 
     if args.eval:
         eval(model, dataset, device, args)

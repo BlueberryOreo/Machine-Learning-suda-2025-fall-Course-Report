@@ -14,19 +14,30 @@ dataset:
   data_path: "../data/Tosches_turtle_processed.h5ad"
 
 train:
-  batch_size: 64
+  batch_size: 512
+  seed: 42
   lr: 1e-3
-  num_epochs: 100
+  num_epochs: 200
   num_workers: 4
-  log_interval: 20
   save_interval: 20
   save_loss_curve: true
-  seed: 42
+  use_contrastive: false
+  contrastive_config:
+    lambda_max: 0.1
+    warmup_epochs: 100
+    ramp_epochs: 30
+    k: 5
+    temperature: 0.2
+    metric: "cosine"
+    normalize: true
+    mutual: false
+    undirected: true
+    exclude_self: true
 
 cluster:
   save_cluster_results: true
   visualize_clusters: true
-  method: "kmeans"  # "kmeans" | "leiden"
+  method: "leiden"  # "kmeans" | "leiden"
   # for kmeans
   n_clusters: "auto"  # int or "auto"
   n_init: 50
