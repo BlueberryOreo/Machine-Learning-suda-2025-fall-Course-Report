@@ -1,18 +1,15 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from typing import Dict, Optional, Iterable, Callable, Literal
+from typing import Dict, Optional, Callable
 
-from modules.components import Encoder, DecoderSCVI, SimpleEncoder, SimpleDecoder
+from modules.components import SimpleEncoder, SimpleDecoder
 
 
-class VAE(nn.Module):
+class AE(nn.Module):
     """
-    A simple AE/VAE implementation.
+    A simple AE implementation.
 
-    - is_vae=True: Variational Autoencoder
-    - is_vae=False: Autoencoder (deterministic)
     """
     def __init__(
         self,
@@ -21,7 +18,6 @@ class VAE(nn.Module):
         n_hidden: int = 1024,
         n_layers: int = 2,
         dropout_rate: float = 0.1,
-        is_vae: bool = True,
         recon_loss: str = "mse",     # "mse" | "bce"
         out_activation: str = "identity",  # use "sigmoid" if recon_loss="bce"
         beta_kl: float = 1.0,        # beta-VAE
@@ -31,7 +27,6 @@ class VAE(nn.Module):
         super().__init__()
         self.input_dim = input_dim
         self.latent_dim = latent_dim
-        self.is_vae = is_vae
         self.recon_loss = recon_loss
         self.beta_kl = beta_kl
         self.contrastive_loss = contrastive_loss or (lambda z: 0.0)
@@ -42,7 +37,6 @@ class VAE(nn.Module):
             hidden_dim=n_hidden,
             n_layers=n_layers,
             dropout=dropout_rate,
-            is_vae=is_vae,
         )
         self.decoder = SimpleDecoder(
             latent_dim=latent_dim,
@@ -62,12 +56,8 @@ class VAE(nn.Module):
           If VAE: {"mu": mu, "logvar": logvar, "z": z}
           If AE : {"z": z}
         """
-        if self.is_vae:
-            mu, logvar, z = self.encoder(x)
-            return {"mu": mu, "logvar": logvar, "z": z}
-        else:
-            _, _, z = self.encoder(x)
-            return {"z": z}
+        z = self.encoder(x)
+        return {"z": z}
 
     def decode(self, z: torch.Tensor) -> torch.Tensor:
         return self.decoder(z)
@@ -81,9 +71,7 @@ class VAE(nn.Module):
         x_hat = self.decode(z)
 
         out = {"x_hat": x_hat, "z": z}
-        if self.is_vae:
-            out["mu"] = enc["mu"]
-            out["logvar"] = enc["logvar"]
+
         return out
 
     def sample_prior(self, n: int, device: Optional[torch.device] = None) -> torch.Tensor:
@@ -109,112 +97,11 @@ class VAE(nn.Module):
             # For BCE, x should be in [0, 1] and decoder activation typically sigmoid.
             recon = F.binary_cross_entropy(x_hat, x, reduction="mean")
 
-        kl = torch.tensor(0.0, device=x.device)
-        if self.is_vae:
-            mu, logvar = out["mu"], out["logvar"]
-            # KL(q(z|x)||p(z)) for diagonal Gaussian
-            kl = -0.5 * torch.mean(1.0 + logvar - mu.pow(2) - logvar.exp())
-
+        contrastive_loss = torch.tensor(0.0, device=x.device)
         if lambda_contrastive > 0:
             z = out["z"]
             z_aug = out.get("z_aug", None)
-            recon += lambda_contrastive * self.contrastive_loss(z, z_aug)
+            contrastive_loss = lambda_contrastive * self.contrastive_loss(z, z_aug)
 
-        total = recon + self.beta_kl * kl
-        return total, recon, kl
-
-
-class ZINBVAE(nn.Module):
-    """
-    A Variational Autoencoder (VAE) with Zero-Inflated Negative Binomial (ZINB) likelihood for single-cell RNA-seq data.
-    """
-    def __init__(self, 
-            n_input: int,
-            n_output: int,
-            n_cat_list: Iterable[int] = None,
-            n_layers: int = 1,
-            n_hidden: int = 128,
-            dropout_rate: float = 0.1,
-            latent_distribution: Literal["normal", "ln"] = "normal",
-            deeply_inject_covariates: bool = True,
-            use_batch_norm: Literal["encoder", "decoder", "none", "both"] = "both",
-            use_layer_norm: Literal["encoder", "decoder", "none", "both"] = "none",
-            log_variational: bool = True,
-            var_activation: Callable | None = None,
-            use_size_factor_key: bool = False,
-            **kwargs,
-        ):
-        super(ZINBVAE, self).__init__()
-        self.n_input = n_input
-        self.n_output = n_output
-        self.n_cat_list = n_cat_list
-        self.n_layers = n_layers
-        self.n_hidden = n_hidden
-        self.log_variational = log_variational
-
-        use_batch_norm_encoder = use_batch_norm == "encoder" or use_batch_norm == "both"
-        use_batch_norm_decoder = use_batch_norm == "decoder" or use_batch_norm == "both"
-        use_layer_norm_encoder = use_layer_norm == "encoder" or use_layer_norm == "both"
-        use_layer_norm_decoder = use_layer_norm == "decoder" or use_layer_norm == "both"
-
-        # Encoder
-        self.encoder = Encoder(
-            n_input=n_input,
-            n_output=n_output,
-            n_cat_list=n_cat_list,
-            n_layers=n_layers,
-            n_hidden=n_hidden,
-            dropout_rate=dropout_rate,
-            distribution=latent_distribution,
-            inject_covariates=deeply_inject_covariates,
-            use_batch_norm=use_batch_norm_encoder,
-            use_layer_norm=use_layer_norm_encoder,
-            var_activation=var_activation,
-            return_dist=True,
-        )
-
-        # l encoder goes from n_input-dimensional data to 1-d library size
-        self.l_encoder = Encoder(
-            n_input,
-            1,
-            n_layers=1,
-            n_cat_list=n_cat_list,
-            n_hidden=n_hidden,
-            dropout_rate=dropout_rate,
-            inject_covariates=deeply_inject_covariates,
-            use_batch_norm=use_batch_norm_encoder,
-            use_layer_norm=use_layer_norm_encoder,
-            var_activation=var_activation,
-            return_dist=True,
-        )
-
-        # Decoder
-        self.decoder = DecoderSCVI(
-            n_output,
-            n_input,
-            n_cat_list=n_cat_list,
-            n_layers=n_layers,
-            n_hidden=n_hidden,
-            inject_covariates=deeply_inject_covariates,
-            use_batch_norm=use_batch_norm_decoder,
-            use_layer_norm=use_layer_norm_decoder,
-            scale_activation="softplus" if use_size_factor_key else "softmax",
-        )
-
-
-if __name__ == "__main__":
-    ae = VAE(
-        input_dim=2000,
-        latent_dim=128,
-        n_hidden=1024,
-        n_layers=2,
-        dropout_rate=0.1,
-        is_vae=False,
-        recon_loss="mse",
-        out_activation="identity",
-        beta_kl=1.0,
-    )
-
-    x_input = torch.randn(16, 2000)
-    out = ae(x_input)
-    print(out["z"].shape)
+        total = recon + contrastive_loss
+        return total, recon, contrastive_loss

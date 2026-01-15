@@ -12,14 +12,14 @@ import matplotlib.pyplot as plt
 from functools import partial
 
 from modules.clustering import run_cluster, visualize
-from utils.losses import knn_graph_contrastive_loss, augment_x, simclr_nt_xent
+from utils.losses import augment_x, simclr_nt_xent
 from utils.dataset import H5adDataset
 from utils.utils import *
 from utils.evaluate import evaluate_clustering
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Train VAE/ZINBVAE model")
+    parser = argparse.ArgumentParser(description="Train AE model with contrastive learning")
     parser.add_argument("--config", type=str, required=True, help="Path to config YAML file")
     parser.add_argument("--out_dir", type=str, required=True, help="Directory to save trained model and logs")
     parser.add_argument("--eval", action='store_true', help="Whether to run evaluation after training")
@@ -80,28 +80,16 @@ def train(model, optimizer, train_loader, device, config):
     bar = tqdm(range(config.start_epoch, config.num_epochs + 1))
 
     if config.use_contrastive:
-        # create a lambda scheduler for contrastive loss weight
-        # lambda_scheduler = LinearWarmupLambda(
-        #     lambda_max=config.contrastive_config.lambda_max,
-        #     warmup_epochs=config.contrastive_config.warmup_epochs,
-        #     ramp_epochs=config.contrastive_config.ramp_epochs,
-        # )
-        lambda_scheduler = lambda epoch: config.contrastive_config.lambda_max
+        config.lambda_contrastive = config.contrastive_config.lambda_max
 
-        # set the model's contrastive loss function with partial
-        # model.contrastive_loss = partial(
-        #     knn_graph_contrastive_loss,
-        #     **config.contrastive_config
-        # )
         model.contrastive_loss = partial(
             simclr_nt_xent,
-            temperature=config.contrastive_config.temperature,
+            **config.contrastive_config
         )
     else:
-        lambda_scheduler = lambda epoch: 0.0
+        config.lambda_contrastive = 0.0
 
     for epoch in bar:
-        config.lambda_contrastive = lambda_scheduler(epoch) # update lambda for this epoch
         avg_loss = train_epoch(model, train_loader, optimizer, device, config)
         bar.desc = f"Epoch {epoch}/{config.num_epochs} - Loss: {avg_loss:.4f}"
         losses.append(avg_loss)
@@ -187,7 +175,7 @@ def main(args):
 
     # Load model and set up optimizer
     print("Loading model...")
-    model = load_model(args.vae.model_name)(**args.vae)
+    model = load_model(args.model.model_name)(**args.model)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.train.lr)
     param_cnt = parameter_count(model)
     print(f"Model loaded with {param_cnt['total']} parameters. Trainable: {param_cnt['trainable']}.")
