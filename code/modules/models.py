@@ -55,8 +55,7 @@ class AE(nn.Module):
     def encode(self, x: torch.Tensor) -> Dict[str, torch.Tensor]:
         """
         Returns:
-          If VAE: {"mu": mu, "logvar": logvar, "z": z}
-          If AE : {"z": z}
+            dict with key "z": latent representation
         """
         z = self.encoder(x)
         return {"z": z}
@@ -76,17 +75,12 @@ class AE(nn.Module):
 
         return out
 
-    def sample_prior(self, n: int, device: Optional[torch.device] = None) -> torch.Tensor:
-        """Sample z ~ N(0, I) and decode to x."""
-        device = device or next(self.parameters()).device
-        z = torch.randn(n, self.latent_dim, device=device)
-        return self.decode(z)
-
     def loss(self, x: torch.Tensor, lambda_contrastive: float, out: Optional[Dict[str, torch.Tensor]] = None) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Compute losses:
-          recon + beta * kl (if VAE)
-        Returns tuple of scalar tensors: total, recon, kl
+            recon + lambda_contrastive * contrastive_loss
+
+        Returns tuple of scalar tensors: total, recon, contrastive_loss
         """
         if out is None:
             out = self.forward(x)
