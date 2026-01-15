@@ -2934,9 +2934,15 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">reference.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">wolf2018scanpy</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">wolf2018scanpy</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">wolf2018scanpy</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">semrau2017dynamics</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">gaublomme2015single</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">patel2014single</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">jiang2025robust</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">pearson1901liii</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">lopez2018deep</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">tian2019clustering</bcf:citekey>
+    <bcf:citekey order="7" intorder="2">li2020deep</bcf:citekey>
+    <bcf:citekey order="7" intorder="3">tian2021model</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
