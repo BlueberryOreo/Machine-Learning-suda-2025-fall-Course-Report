@@ -11,8 +11,8 @@ def parse_args():
     parser.add_argument("--data_path", type=str, required=True, help="Path to the input .h5ad data file.")
     parser.add_argument("--output_path", type=str, required=True, help="Path to save the preprocessed .h5ad data file.")
     parser.add_argument("--nan_to_num", type=float, default=0.0, help="Value to replace NaNs in the data.")
-    parser.add_argument("--mitochondrial_prefixes", type=str, nargs='+', default=["MT"], help="Prefixes for mitochondrial genes.")
-    parser.add_argument("--ribosomal_prefixes", type=str, nargs='+', default=["RPS", "RPL"], help="Prefixes for ribosomal genes.")
+    parser.add_argument("--mitochondrial_prefixes", type=str, nargs='+', default=[], help="Prefixes for mitochondrial genes.")
+    parser.add_argument("--ribosomal_prefixes", type=str, nargs='+', default=[], help="Prefixes for ribosomal genes.")
     parser.add_argument("--n_genes_threshold", type=int, default=6000, help="Threshold for filtering cells by number of genes.")
     parser.add_argument("--pct_counts_mt_threshold", type=float, default=0.9, help="Threshold for filtering cells by percentage of mitochondrial counts.")
     parser.add_argument("--hvgs_n", type=int, default=2000, help="Number of highly variable genes to select.")
@@ -41,26 +41,27 @@ def preprocess(
     print(adata)
 
     # QC
-    # Mitochondrial genes
-    adata.var["mt"] = adata.var_names.str.startswith(mitochondrial_prefix)
-    # Ribosomal genes
-    adata.var["ribo"] = adata.var_names.str.startswith(ribosomal_prefixes)
+    if len(mitochondrial_prefix) > 0 and len(ribosomal_prefixes) > 0:
+        # Mitochondrial genes
+        adata.var["mt"] = adata.var_names.str.startswith(mitochondrial_prefix)
+        # Ribosomal genes
+        adata.var["ribo"] = adata.var_names.str.startswith(ribosomal_prefixes)
 
-    sc.pp.calculate_qc_metrics(adata, qc_vars=["mt", "ribo"], log1p=True, inplace=True)
+        sc.pp.calculate_qc_metrics(adata, qc_vars=["mt", "ribo"], log1p=True, inplace=True)
 
-    if save_violin:
-        sc.pl.violin(
-            adata,
-            ["n_genes_by_counts", "total_counts", "pct_counts_mt"],
-            jitter=0.4,
-            multi_panel=True,
-            show=False,
-            save="violin.png",
-        )
+        if save_violin:
+            sc.pl.violin(
+                adata,
+                ["n_genes_by_counts", "total_counts", "pct_counts_mt"],
+                jitter=0.4,
+                multi_panel=True,
+                show=False,
+                save="violin.png",
+            )
 
-    # Filter cells
-    adata = adata[adata.obs.n_genes_by_counts < n_genes_threshold, :]
-    adata = adata[adata.obs.pct_counts_mt < pct_counts_mt_threshold, :]
+        # Filter cells
+        adata = adata[adata.obs.n_genes_by_counts < n_genes_threshold, :]
+        adata = adata[adata.obs.pct_counts_mt < pct_counts_mt_threshold, :]
 
     # Normalization
     adata.layers["counts"] = adata.X.copy()

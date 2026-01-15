@@ -1,0 +1,43 @@
+model:
+  model_name: "AE"
+  input_dim: 2000
+  latent_dim: 128
+  n_hidden: 1024
+  n_layers: 2
+  dropout_rate: 0.1
+  recon_loss: "mse" # "mse" | "bce"
+  out_activation: "identity"  # use "sigmoid" if recon_loss="bce"
+
+dataset:
+  data_path: "../data/Quake_Lung_processed.h5ad"
+
+train:
+  batch_size: 512
+  seed: 42
+  lr: 1e-3
+  num_epochs: 100
+  num_workers: 4
+  save_interval: 20
+  save_loss_curve: true
+  use_contrastive: false
+  contrastive_config:
+    lambda_max: 1.0
+    k: 25
+    temperature: 0.05
+    normalize: true
+
+cluster:
+  save_cluster_results: true
+  visualize_clusters: true
+  method: "leiden"  # "kmeans" | "leiden"
+  # for kmeans
+  n_clusters: "auto"  # int or "auto"
+  n_init: 50
+  random_state: 0
+  # for leiden
+  resolution: 0.8
+  n_neighbors: 15
+  metric: "cosine"
+  # visualization
+  display_gt: true
+  file_type: "png"  # "png" | "pdf"
