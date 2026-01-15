@@ -117,7 +117,8 @@ class VAE(nn.Module):
 
         if lambda_contrastive > 0:
             z = out["z"]
-            recon += lambda_contrastive * self.contrastive_loss(z)
+            z_aug = out.get("z_aug", None)
+            recon += lambda_contrastive * self.contrastive_loss(z, z_aug)
 
         total = recon + self.beta_kl * kl
         return total, recon, kl

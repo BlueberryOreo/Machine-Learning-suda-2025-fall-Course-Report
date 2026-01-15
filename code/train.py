@@ -11,7 +11,8 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 from functools import partial
 
-from modules.clustering import run_cluster, visualize, knn_graph_contrastive_loss
+from modules.clustering import run_cluster, visualize
+from utils.losses import knn_graph_contrastive_loss, augment_x, simclr_nt_xent
 from utils.dataset import H5adDataset
 from utils.utils import *
 from utils.evaluate import evaluate_clustering
@@ -60,6 +61,10 @@ def train_epoch(model, dataloader, optimizer, device, config):
         data = data.to(device)
         optimizer.zero_grad()
         output = model(data)
+
+        # contrastive
+        x_aug = augment_x(data).to(device)
+        output["z_aug"] = model.encode(x_aug)["z"]
         
         loss, _, _ = model.loss(data, lambda_contrastive=config.lambda_contrastive, out=output)
         loss.backward()
@@ -76,16 +81,21 @@ def train(model, optimizer, train_loader, device, config):
 
     if config.use_contrastive:
         # create a lambda scheduler for contrastive loss weight
-        lambda_scheduler = LinearWarmupLambda(
-            lambda_max=config.contrastive_config.lambda_max,
-            warmup_epochs=config.contrastive_config.warmup_epochs,
-            ramp_epochs=config.contrastive_config.ramp_epochs,
-        )
+        # lambda_scheduler = LinearWarmupLambda(
+        #     lambda_max=config.contrastive_config.lambda_max,
+        #     warmup_epochs=config.contrastive_config.warmup_epochs,
+        #     ramp_epochs=config.contrastive_config.ramp_epochs,
+        # )
+        lambda_scheduler = lambda epoch: config.contrastive_config.lambda_max
 
         # set the model's contrastive loss function with partial
+        # model.contrastive_loss = partial(
+        #     knn_graph_contrastive_loss,
+        #     **config.contrastive_config
+        # )
         model.contrastive_loss = partial(
-            knn_graph_contrastive_loss,
-            **config.contrastive_config
+            simclr_nt_xent,
+            temperature=config.contrastive_config.temperature,
         )
     else:
         lambda_scheduler = lambda epoch: 0.0
@@ -159,6 +169,9 @@ def eval(model, dataset, device, config):
     # Evaluate clustering
     results = evaluate_clustering(true_labels=dataset.cell_types, pred_labels=pred_labels)
     print("Clustering Evaluation Results:", results)
+    # Save results
+    with open(os.path.join(eval_config.out_dir, "clustering_evaluation.json"), 'w') as f:
+        json.dump(results, f)
 
     # Save visualization
     if cluster_config.visualize_clusters:

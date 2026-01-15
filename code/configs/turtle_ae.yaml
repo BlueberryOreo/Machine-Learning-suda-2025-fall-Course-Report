@@ -21,13 +21,13 @@ train:
   num_workers: 4
   save_interval: 20
   save_loss_curve: true
-  use_contrastive: false
+  use_contrastive: true
   contrastive_config:
-    lambda_max: 0.1
-    warmup_epochs: 100
-    ramp_epochs: 30
-    k: 5
-    temperature: 0.2
+    lambda_max: 0.5
+    warmup_epochs: 1
+    ramp_epochs: 1
+    k: 25
+    temperature: 0.1
     metric: "cosine"
     normalize: true
     mutual: false
