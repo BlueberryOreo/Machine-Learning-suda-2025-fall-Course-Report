@@ -152,7 +152,6 @@ def eval(model, dataset, device, config):
     cluster_config.n_clusters = len(set(dataset.cell_types)) if cluster_config.n_clusters == "auto" else cluster_config.n_clusters
     pred_labels = run_cluster(dataset.adata, config=cluster_config, use_rep="latent")
     if cluster_config.save_cluster_results:
-        dataset.adata.obs["predicted_labels"] = pred_labels.astype(str)
         cluster_results_path = os.path.join(eval_config.out_dir, "cluster_results.csv")
         dataset.adata.obs.to_csv(cluster_results_path)
         print(f"Saved clustering results at {cluster_results_path}")

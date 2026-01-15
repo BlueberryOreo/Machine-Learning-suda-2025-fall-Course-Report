@@ -136,7 +136,7 @@ def run_cluster(adata: AnnData, config, use_rep: str = "latent"):
     elif config.method == "leiden":
         sc.pp.neighbors(adata, use_rep=use_rep, n_neighbors=config.n_neighbors, metric=config.metric)
         sc.tl.leiden(adata, key_added=config.method, resolution=config.resolution)
-        pred_labels = adata.obs[config.method].to_list()
+        pred_labels = adata.obs[config.method]
         return pred_labels
     else:
         raise NotImplementedError(f"Clustering method '{config.method}' is not implemented.")
