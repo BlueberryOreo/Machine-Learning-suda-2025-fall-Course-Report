@@ -2,6 +2,9 @@
 import torch
 import torch.nn.functional as F
 
+# Can add other losses here as needed
+# Use partial to set contrastive loss parameters in train.py
+
 @torch.no_grad()
 def augment_x(
     x: torch.Tensor,
@@ -43,7 +46,7 @@ def simclr_nt_xent(
     **kwargs
 ) -> torch.Tensor:
     """
-    Standard SimCLR NT-Xent loss for two views.
+    Standard SimCLR NT-Xent loss for two views. Chen, Ting, et al. "A simple framework for contrastive learning of visual representations." International conference on machine learning. PmLR, 2020.
     z1, z2: (B, D)
     """
     if normalize:

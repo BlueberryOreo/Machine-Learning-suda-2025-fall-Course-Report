@@ -1,4 +1,4 @@
-
+# Train and evaluate AE model with contrastive learning for single-cell data
 import os
 from ruamel.yaml import YAML
 import json

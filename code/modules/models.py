@@ -5,6 +5,8 @@ from typing import Dict, Optional, Callable
 
 from modules.components import SimpleEncoder, SimpleDecoder
 
+# Can add other models here as needed
+# Use load_model(model_name) in utils/utils.py to dynamically load models by name
 
 class AE(nn.Module):
     """
