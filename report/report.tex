@@ -33,9 +33,6 @@
 \usepackage[backend=biber,style=gb7714-2015,gbpub=false,gbnamefmt=lowercase,maxbibnames=99,gbcitelocal=chinese]{biblatex}
 \addbibresource[location=local]{reference.bib}
 
-% 设置页眉
-\pagestyle{fancy}
-
 % 设置论文的页面格式
 \geometry{
 	top=2.54cm,             
@@ -109,13 +106,14 @@
 
 \begin{document}
 
+\maketitle
+\vspace{-1.5em}
+\thispagestyle{mainmatter}
+
 % 切换到正文的页面样式
 \pagestyle{mainmatter}
 % 让页码从1开始
 \setcounter{page}{1}
-
-\maketitle
-\vspace{-1.5em}
 
 \section{引言}
 

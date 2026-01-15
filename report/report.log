@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.9.22)  15 JAN 2026 20:44
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.9.22)  15 JAN 2026 20:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1188,32 +1188,27 @@ Package biblatex Info: ... file 'report.bbl' found.
  (./report.bbl)
 Package biblatex Info: Reference section=0 on input line 110.
 Package biblatex Info: Reference segment=0 on input line 110.
-
-
-Package fancyhdr Warning: \fancyfoot's `E' option without twoside option is useless.
-(fancyhdr)                Please consider using the `twoside' option on input line 113.
-
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 117.
-(e:/TexLive/texmf-dist/tex/latex/lm/ot1lmr.fd
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 112.
+ (e:/TexLive/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 117.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 112.
  (e:/TexLive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 117.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 112.
  (e:/TexLive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+ntxmia on input line 117.
+LaTeX Font Info:    Trying to load font information for U+ntxmia on input line 112.
  (e:/TexLive/texmf-dist/tex/latex/newtx/untxmia.fd
 File: untxmia.fd 2018/04/14 Fontinst v1.933 font definitions for U/ntxmia.
 )
-LaTeX Font Info:    Trying to load font information for U+ntxsym on input line 117.
+LaTeX Font Info:    Trying to load font information for U+ntxsym on input line 112.
  (e:/TexLive/texmf-dist/tex/latex/newtx/untxsym.fd
 File: untxsym.fd 2023/08/16 Fontinst v1.933 font definitions for U/ntxsym.
 )
-LaTeX Font Info:    Trying to load font information for U+ntxsyc on input line 117.
+LaTeX Font Info:    Trying to load font information for U+ntxsyc on input line 112.
  (e:/TexLive/texmf-dist/tex/latex/newtx/untxsyc.fd
 File: untxsyc.fd 2012/04/12 Fontinst v1.933 font definitions for U/ntxsyc.
 )
