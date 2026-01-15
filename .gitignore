@@ -1,6 +1,7 @@
 *.h5ad
 ~$*.docx
 *.aux
+*.7z
 
 __pycache__/
 output/
