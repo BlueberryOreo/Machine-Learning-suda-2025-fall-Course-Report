@@ -45,7 +45,7 @@ conda activate scrna
 pip install -r requirements.txt
 ```
 
-配置环境变量（Linux系统，Windows系统可不做）
+配置环境变量（Linux系统可选）
 
 ```bash
 cd code
