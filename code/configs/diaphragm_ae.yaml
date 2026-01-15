@@ -9,7 +9,7 @@ model:
   out_activation: "identity"  # use "sigmoid" if recon_loss="bce"
 
 dataset:
-  data_path: "../data/Quake_Lung_processed.h5ad"
+  data_path: "../data/Quake_Diaphragm_processed.h5ad"
 
 train:
   batch_size: 512
