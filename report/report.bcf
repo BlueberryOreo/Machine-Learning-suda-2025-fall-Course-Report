@@ -2939,10 +2939,25 @@
     <bcf:citekey order="3" intorder="1">patel2014single</bcf:citekey>
     <bcf:citekey order="4" intorder="1">jiang2025robust</bcf:citekey>
     <bcf:citekey order="5" intorder="1">pearson1901liii</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">lopez2018deep</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">tian2019clustering</bcf:citekey>
-    <bcf:citekey order="7" intorder="2">li2020deep</bcf:citekey>
-    <bcf:citekey order="7" intorder="3">tian2021model</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">mcqueen1967some</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">traag2019louvain</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">lopez2018deep</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">tian2019clustering</bcf:citekey>
+    <bcf:citekey order="9" intorder="2">li2020deep</bcf:citekey>
+    <bcf:citekey order="9" intorder="3">tian2021model</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">chen2020simple</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">chen2020simple</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">tosches2018evolution</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">tosches2018evolution</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">schaum2018single</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">schaum2018single</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">tosches2018evolution</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">tosches2018evolution</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">schaum2018single</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">schaum2018single</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">traag2019louvain</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">wolf2018scanpy</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">wolf2018scanpy</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

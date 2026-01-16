@@ -22,7 +22,6 @@ train:
   use_contrastive: true
   contrastive_config:
     lambda_max: 1.0
-    k: 25
     temperature: 0.05
     normalize: true
 

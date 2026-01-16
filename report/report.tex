@@ -11,6 +11,7 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \usepackage{amsfonts}
+\usepackage{dsfont}
 \usepackage{hologo}
 \usepackage{geometry}
 \usepackage{fancyhdr}
@@ -66,8 +67,8 @@
 }
 
 % 设置表格和图的编号格式 
-\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
-\renewcommand{\thetable}{\thechapter.\arabic{table}} 
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}} 
 
 % 设置代码块的格式
 \lstset{
@@ -119,25 +120,70 @@
 
 单细胞转录组测序技术能够在单个细胞水平上解析基因表达模式，在发育生物学\cite{semrau2017dynamics}、自身免疫\cite{gaublomme2015single}及癌症研究\cite{patel2014single}等领域展现出巨大的应用价值。然而，由于单细胞转录组数据普遍具有高度稀疏性、噪声较大以及维度高等特点，对其进行直接分析面临较大挑战。聚类分析能够在无监督条件下根据基因表达特征对细胞进行分组，从而揭示细胞间潜在的异质性与功能差异，因此已成为单细胞转录组数据分析中最为核心的方法之一。通过聚类分析，研究人员可以识别具有相似表达模式的细胞群体，进而探究细胞在组织结构中的组成关系，以及其在生理过程或疾病发生发展中的动态变化\cite{jiang2025robust}。
 
-传统的单细胞转录组聚类方法通常采用主成分分析\cite{pearson1901liii}（Principal Component Analysis, PCA）对高维表达数据进行降维，并结合聚类算法（如 K-均值算法、Leiden 算法等）对细胞进行分组。然而，PCA 本质上是一种线性降维方法，假设数据分布于线性子空间中，在当前单细胞数据规模和复杂性不断提升的背景下\cite{lopez2018deep}，其对复杂非线性细胞结构的刻画能力受到明显限制。此外，PCA 对异常值和噪声较为敏感，在处理具有高噪声、高稀疏性特征的单细胞转录组数据时稳定性较差，容易将技术噪声误识为主要成分，从而影响特征表示质量。
+传统的单细胞转录组聚类方法通常采用主成分分析\cite{pearson1901liii}（Principal Component Analysis, PCA）对高维表达数据进行降维，并结合聚类算法（如K-均值算法\cite{mcqueen1967some}、Leiden算法\cite{traag2019louvain}等）对细胞进行分组。然而，PCA本质上是一种线性降维方法，假设数据分布于线性子空间中，在当前单细胞数据规模和复杂性不断提升的背景下\cite{lopez2018deep}，其对复杂非线性细胞结构的刻画能力受到明显限制。此外，PCA对异常值和噪声较为敏感，在处理具有高噪声、高稀疏性特征的单细胞转录组数据时稳定性较差，容易将技术噪声误识为主要成分，从而影响特征表示质量。
 
-随着机器学习方法的发展，越来越多的研究将深度学习技术引入单细胞转录组聚类分析，以应对更加复杂的数据分布。其中，自编码器作为一种有效的表示学习模型，能够通过重构输入数据的方式学习其潜在低维表示，在细胞特征提取方面得到了广泛应用\cite{tian2019clustering,li2020deep,tian2021model}。然而，传统自编码器的训练目标主要聚焦于最小化重构误差，缺乏对潜在空间中样本判别性结构的显式约束，导致其学习到的特征在聚类等下游任务中的表现仍存在一定局限。
+随着机器学习方法的发展，越来越多的研究将深度学习技术引入单细胞转录组聚类分析，以应对更加复杂的数据分布。其中，自编码器（Autoencoder）作为一种有效的表示学习模型，能够通过重构输入数据的方式学习其潜在低维表示，在细胞特征提取方面得到了广泛应用\cite{tian2019clustering,li2020deep,tian2021model}。然而，传统自编码器的训练目标主要聚焦于最小化重构误差，缺乏对隐空间中样本判别性结构的显式约束，导致其学习到的特征在聚类等下游任务中的表现仍存在一定局限。
 
-为提升自编码器学习到的潜在表示在聚类任务中的判别能力，本文在传统自编码器框架基础上引入对比学习机制，通过联合优化重构损失与对比损失，引导模型在保留表达信息的同时，学习更加紧凑且具有良好可分性的聚类友好特征表示。具体而言，对同一细胞的表达数据施加不同的数据增强操作以构造正样本对，并通过编码器映射至潜在空间；对比损失鼓励同一细胞不同视图的表示保持相似，同时拉开不同细胞之间的距离。模型训练过程中联合优化重构损失与对比损失，从而在保留原始表达信息的同时，增强潜在特征的判别性。实验结果表明，引入对比学习的自编码器在聚类任务中能够获得更加紧凑且分离良好的细胞簇。
+为提升自编码器学习到的潜在表示在聚类任务中的判别能力，本文在传统自编码器框架基础上引入对比学习机制，通过联合优化重构损失与对比损失，引导模型在保留表达信息的同时，学习更加紧凑且具有良好可分性的聚类友好特征表示。具体而言，对同一细胞的表达数据施加不同的数据增强操作以构造正样本对，并通过编码器映射至隐空间；对比损失鼓励同一细胞不同视图的表示保持相似，同时拉开不同细胞之间的距离。模型训练过程中联合优化重构损失与对比损失，从而在保留原始表达信息的同时，增强潜在特征的判别性。实验结果表明，引入对比学习的自编码器在聚类任务中能够获得更加紧凑且分离良好的细胞簇。
 
 
 
 \section{方法}
 
-\subsection{基线模型——自编码器}
+\subsection{自编码器设计}
+
+自编码器由编码器（Encoder）和解码器（Decoder）两部分组成。其中，编码器用于将输入数据映射到低维隐空间，以提取其潜在特征；解码器则根据隐空间表示对数据进行重构，尽可能还原原始输入。本文采用神经网络作为编码器和解码器的基本结构，其整体架构如图~\ref{fig:ae-architecture}~所示。其中$\mathcal{E}$和$\mathcal{D}$分别表示编码器和解码器，$\mathbf{x}$表示原始输入数据，$\mathbf{z}$表示编码器学习得到的隐空间特征，$\hat{\mathbf{x}}$表示解码器重构得到的输出数据。
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{figures/autoencoder_architecture.pdf}
+	\caption{自编码器架构}
+	\label{fig:ae-architecture}
+\end{figure}
+
+自编码器的训练过程以重构误差最小化为目标，本文采用基于均方误差（Mean Squared Error, MSE）的重构损失函数，用于衡量原始输入数据与重构数据之间的差异，其定义如下：
+\begin{equation}
+	\mathcal{L}_\text{rec} = \frac{1}{d}\sum_{i=1}^{d}(x_i - \hat{x}_i)^2
+	\label{eq:reconstruction-loss}
+\end{equation}
+其中$d$表示原始数据的维度，$x_i$和$\hat{x}_i$分别表示原始数据与重构数据在第$i$个维度上的取值。
 
 \subsection{对比学习}
 
+仅依赖重构损失对自编码器进行训练，缺乏对隐空间中样本判别性结构的显式约束，容易导致模型学习到的特征在聚类任务中的区分能力受限。为此，本文在重构损失的基础上引入对比学习机制，通过联合优化重构目标与对比目标，引导模型在保持数据表达能力的同时，学习更加紧凑且具有良好可分性的聚类友好特征表示。
 
+为构建对比学习所需的正负样本对，本文采用“同一细胞不同视图”的数据增强策略，对原始细胞数据进行多视图变换。具体而言，采用基因随机丢弃、微量高斯噪声注入以及文库大小缩放三种数据增强方式。记增强后的数据为$\tilde{\mathbf{x}}$，通过编码器对其进行特征提取得到对应的隐空间表示$\tilde{\mathbf{z}}$。在一个批次内，同一细胞的不同视图所对应的特征表示构成正样本对$(\mathbf{z}, \tilde{\mathbf{z}}^+)$，而不同细胞的不同视图之间则构成负样本对$(\mathbf{z}, \tilde{\mathbf{z}}^-)$。
+
+参考 \citet{chen2020simple}，本文采用归一化温度尺度交叉熵（Normalized Temperature-scaled Cross Entropy, NT-Xent）损失函数对正负样本对进行对比学习，其定义如下：
+\begin{equation}
+	\mathcal{L}_\text{con} = \frac{1}{2B}\sum_{i=1}^{2B}-\log\frac{\exp\left(s(\mathbf{z}_i, \mathbf{z}_i)/\tau\right)}{\sum_{k=1}^{2B}\mathds{1}_{k\neq i}\exp\left(s(\mathbf{z}_i, \mathbf{z}_k) /\tau\right)}
+	\label{eq:contrastive-loss}
+\end{equation}
+其中，$B$表示批次大小，$s(\cdot, \cdot)$表示样本间的相似度度量。本文采用余弦相似度来衡量隐空间表示之间的相似性，$\tau$为温度参数，用于调节相似度分布的平滑程度；$\mathds{1}_{k\neq i}$为指示函数，当$k\neq i$时取值为$1$，否则取值为$0$，以排除样本自身在分母中的贡献。
+
+\subsection{联合优化}
+
+基于式~(\ref{eq:reconstruction-loss})~和式~(\ref{eq:contrastive-loss})，模型最终的训练损失函数可定义为：
+\begin{equation}
+	\mathcal{L} = \mathcal{L}_\text{rec} + \lambda\mathcal{L}_\text{con}
+\end{equation}
+其中$\lambda$为对比学习损失所占权重。
 
 \section{实验}
 
 \subsection{实验设置}
+
+本文在 \citet{tosches2018evolution} 和 \citet{schaum2018single} 提供的单细胞转录组数据集上对所提出的方法进行聚类分析评估。
+\citet{tosches2018evolution} 对红耳龟（Trachemys scripta elegans）雌性个体端脑背侧皮层区域进行采样，共获得18664个单细胞样本，覆盖23500个基因。
+\citet{schaum2018single} 构建了涵盖小鼠20种器官和组织的单细胞转录组参考图谱，总计包含超过100000个单细胞样本。本文从该数据集中选取膈肌（Diaphragm）和肺（Lung）两个组织的细胞数据进行实验，分别包含870个细胞和1676个细胞，均测量了23341个基因。
+
+在模型设置中，自编码器的输入维度设为2000，中间隐藏层维度为1024，隐空间特征维度为128。编码器与解码器的网络层数$l^{\mathcal{E}}$和$l^{\mathcal{D}}$均设置为2层，并在网络中引入dropout正则化策略，dropout 率设为0.1。模型训练过程中，批次大小设置为512，学习率为0.001，训练轮数为100轮。对比学习损失的权重系数$\lambda$设为1.0，温度参数$\tau$设为0.05。在聚类阶段，本文采用单细胞分析中常用的基于kNN图的Leiden聚类算法\cite{traag2019louvain}对隐空间特征进行聚类分析。具体而言，借助Scanpy库\cite{wolf2018scanpy}构建k近邻图，设置邻居数为15、分辨率参数为0.8，并采用余弦相似度作为样本间相似度度量。
+
+实验在一台Linux服务器上完成。服务器采用双路AMD EPYC 7402处理器（每颗24核、支持超线程，总计48物理核心 / 96逻辑线程），CPU主频2.8 GHz，并具备多NUMA节点拓扑结构。训练使用一块NVIDIA GeForce RTX 3090 GPU进行加速。软件环境方面，实验使用Python 3.11，并基于PyTorch 2.5.0搭建模型，以保证实验的可复现性与一致性。
+
+\subsection{数据预处理}
+
+为保证数据的质量，在进行模型训练前，首先对数据进行预处理。本文采用细胞常用预处理流程，包括质量控制（Quality Control, QC）、高变基因筛选、数据标准化和对数化操作。所有预处理操作均基于Scanpy库\cite{wolf2018scanpy}完成。其中，对于三个数据集均选取2000个高变基因进行分析。
 
 \subsection{结果}
 
