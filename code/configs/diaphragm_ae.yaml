@@ -34,7 +34,7 @@ cluster:
   n_init: 50
   random_state: 0
   # for leiden
-  resolution: 0.8
+  resolution: 0.5
   n_neighbors: 15
   metric: "cosine"
   # visualization
