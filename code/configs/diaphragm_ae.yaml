@@ -19,7 +19,7 @@ train:
   num_workers: 4
   save_interval: 20
   save_loss_curve: true
-  use_contrastive: false
+  use_contrastive: true
   contrastive_config:
     lambda_max: 1.0
     temperature: 0.05
