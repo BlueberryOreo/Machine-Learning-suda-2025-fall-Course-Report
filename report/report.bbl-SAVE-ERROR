@@ -535,6 +535,121 @@
       \range{pages}{14}
       \keyw{pearson1901liii}
     \endentry
+    \entry{mcqueen1967some}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=770d934c82566324b00b8ba9bdd0e657}{%
+           family={McQueen},
+           familyi={M\bibinitperiod},
+           given={James\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \name{namea}{1}{}{%
+        {{hash=770d934c82566324b00b8ba9bdd0e657}{%
+           family={McQueen},
+           familyi={M\bibinitperiod},
+           given={James\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{fullhash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{bibnamehash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{authorbibnamehash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{authornamehash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{authorfullhash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{nameabibnamehash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{nameanamehash}{770d934c82566324b00b8ba9bdd0e657}
+      \strng{nameafullhash}{770d934c82566324b00b8ba9bdd0e657}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proc. of 5th Berkeley Symposium on Math. Stat. and Prob.}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Some methods of classification and analysis of multivariate observations}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{1967}
+      \field{dateera}{ce}
+      \field{pages}{281\bibrangedash 297}
+      \range{pages}{17}
+      \keyw{mcqueen1967some}
+    \endentry
+    \entry{traag2019louvain}{article}{}
+      \name{author}{3}{}{%
+        {{hash=18f2a50c77e449afe5f4860879107330}{%
+           family={Traag},
+           familyi={T\bibinitperiod},
+           given={Vincent\bibnamedelima A},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=783af1eb97144feb275a9c50368af326}{%
+           family={Waltman},
+           familyi={W\bibinitperiod},
+           given={Ludo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=95abfb07aac7d047a7dccdad8e6d78c7}{%
+           family={Van\bibnamedelima Eck},
+           familyi={V\bibinitperiod\bibinitdelim E\bibinitperiod},
+           given={Nees\bibnamedelima Jan},
+           giveni={N\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \name{namea}{3}{}{%
+        {{hash=18f2a50c77e449afe5f4860879107330}{%
+           family={Traag},
+           familyi={T\bibinitperiod},
+           given={Vincent\bibnamedelima A},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=783af1eb97144feb275a9c50368af326}{%
+           family={Waltman},
+           familyi={W\bibinitperiod},
+           given={Ludo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=95abfb07aac7d047a7dccdad8e6d78c7}{%
+           family={Van\bibnamedelima Eck},
+           familyi={V\bibinitperiod\bibinitdelim E\bibinitperiod},
+           given={Nees\bibnamedelima Jan},
+           giveni={N\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{bee9ec678cee295e957a97e3104a0dd0}
+      \strng{fullhash}{c06cefa46ce52dac162b3548d8afb5ab}
+      \strng{bibnamehash}{c06cefa46ce52dac162b3548d8afb5ab}
+      \strng{authorbibnamehash}{c06cefa46ce52dac162b3548d8afb5ab}
+      \strng{authornamehash}{bee9ec678cee295e957a97e3104a0dd0}
+      \strng{authorfullhash}{c06cefa46ce52dac162b3548d8afb5ab}
+      \strng{nameabibnamehash}{c06cefa46ce52dac162b3548d8afb5ab}
+      \strng{nameanamehash}{bee9ec678cee295e957a97e3104a0dd0}
+      \strng{nameafullhash}{c06cefa46ce52dac162b3548d8afb5ab}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific reports}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{number}{1}
+      \field{title}{From Louvain to Leiden: guaranteeing well-connected communities}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{9}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{pages}{1\bibrangedash 12}
+      \range{pages}{12}
+      \keyw{traag2019louvain}
+    \endentry
     \entry{lopez2018deep}{article}{}
       \name{author}{5}{}{%
         {{hash=473fda5e876895f8f0a4c084ac6c7ae7}{%
@@ -605,8 +720,8 @@
       \strng{nameabibnamehash}{dafaea55a71865c5087dd1081243a995}
       \strng{nameanamehash}{5c10d7a4ec99310dfd2b171cb57b638a}
       \strng{nameafullhash}{dafaea55a71865c5087dd1081243a995}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature methods}
@@ -686,8 +801,8 @@
       \strng{nameanamehash}{86e0b3d0919f9e9a5214153b1ce02ade}
       \strng{nameafullhash}{dbd41690adef7caacc3d07546c605b3a}
       \field{extraname}{1}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature Machine Intelligence}
@@ -826,8 +941,8 @@
       \strng{nameabibnamehash}{647f543cf4a06e2938c16102cfedaca3}
       \strng{nameanamehash}{76109fac3a07036300f54668899f4330}
       \strng{nameafullhash}{647f543cf4a06e2938c16102cfedaca3}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature communications}
@@ -917,8 +1032,8 @@
       \strng{nameanamehash}{86e0b3d0919f9e9a5214153b1ce02ade}
       \strng{nameafullhash}{dbe31dba9747902aef584eacc09a66d7}
       \field{extraname}{2}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature communications}
@@ -936,6 +1051,457 @@
       \field{pages}{1873}
       \range{pages}{1}
       \keyw{tian2021model}
+    \endentry
+    \entry{chen2020simple}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=b240c653612b8157a41dd4282347398a}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Ting},
+           giveni={T\bibinitperiod}}}%
+        {{hash=7fc0edf04cce351dda404579ede3d0d1}{%
+           family={Kornblith},
+           familyi={K\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e34c5aa67281924804d54d88e58ca38a}{%
+           family={Norouzi},
+           familyi={N\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=9a8750ccdb2a4cf14d2655face1ce016}{%
+           family={Hinton},
+           familyi={H\bibinitperiod},
+           given={Geoffrey},
+           giveni={G\bibinitperiod}}}%
+      }
+      \name{namea}{4}{}{%
+        {{hash=b240c653612b8157a41dd4282347398a}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Ting},
+           giveni={T\bibinitperiod}}}%
+        {{hash=7fc0edf04cce351dda404579ede3d0d1}{%
+           family={Kornblith},
+           familyi={K\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e34c5aa67281924804d54d88e58ca38a}{%
+           family={Norouzi},
+           familyi={N\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=9a8750ccdb2a4cf14d2655face1ce016}{%
+           family={Hinton},
+           familyi={H\bibinitperiod},
+           given={Geoffrey},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{organization}{1}{%
+        {PmLR}%
+      }
+      \strng{namehash}{3dc8ec697e4145870100b5dc50b300b9}
+      \strng{fullhash}{584a9ff5d36bb27e8e9ed9ee39cb795e}
+      \strng{bibnamehash}{584a9ff5d36bb27e8e9ed9ee39cb795e}
+      \strng{authorbibnamehash}{584a9ff5d36bb27e8e9ed9ee39cb795e}
+      \strng{authornamehash}{3dc8ec697e4145870100b5dc50b300b9}
+      \strng{authorfullhash}{584a9ff5d36bb27e8e9ed9ee39cb795e}
+      \strng{nameabibnamehash}{584a9ff5d36bb27e8e9ed9ee39cb795e}
+      \strng{nameanamehash}{3dc8ec697e4145870100b5dc50b300b9}
+      \strng{nameafullhash}{584a9ff5d36bb27e8e9ed9ee39cb795e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{A simple framework for contrastive learning of visual representations}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{pages}{1597\bibrangedash 1607}
+      \range{pages}{11}
+      \keyw{chen2020simple}
+    \endentry
+    \entry{tosches2018evolution}{article}{}
+      \name{author}{6}{}{%
+        {{hash=195ef2f18bac10ec60819f35d7fcbebc}{%
+           family={Tosches},
+           familyi={T\bibinitperiod},
+           given={Maria\bibnamedelima Antonietta},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bf219de11bff6b244e3c5c0af064f888}{%
+           family={Yamawaki},
+           familyi={Y\bibinitperiod},
+           given={Tracy\bibnamedelima M},
+           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=1aa5d5bc1c70112f2a27be5955885329}{%
+           family={Naumann},
+           familyi={N\bibinitperiod},
+           given={Robert\bibnamedelima K},
+           giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=b290e7ebc00a71a9ada7055f02b4f9f5}{%
+           family={Jacobi},
+           familyi={J\bibinitperiod},
+           given={Ariel\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bbfe2af36a499179e407d1325305a480}{%
+           family={Tushev},
+           familyi={T\bibinitperiod},
+           given={Georgi},
+           giveni={G\bibinitperiod}}}%
+        {{hash=9dd7596e695df39d45393ad93580e432}{%
+           family={Laurent},
+           familyi={L\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+      }
+      \name{namea}{6}{}{%
+        {{hash=195ef2f18bac10ec60819f35d7fcbebc}{%
+           family={Tosches},
+           familyi={T\bibinitperiod},
+           given={Maria\bibnamedelima Antonietta},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bf219de11bff6b244e3c5c0af064f888}{%
+           family={Yamawaki},
+           familyi={Y\bibinitperiod},
+           given={Tracy\bibnamedelima M},
+           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=1aa5d5bc1c70112f2a27be5955885329}{%
+           family={Naumann},
+           familyi={N\bibinitperiod},
+           given={Robert\bibnamedelima K},
+           giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=b290e7ebc00a71a9ada7055f02b4f9f5}{%
+           family={Jacobi},
+           familyi={J\bibinitperiod},
+           given={Ariel\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bbfe2af36a499179e407d1325305a480}{%
+           family={Tushev},
+           familyi={T\bibinitperiod},
+           given={Georgi},
+           giveni={G\bibinitperiod}}}%
+        {{hash=9dd7596e695df39d45393ad93580e432}{%
+           family={Laurent},
+           familyi={L\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {American Association for the Advancement of Science}%
+      }
+      \strng{namehash}{9ae45381244a29181b491bb7266612db}
+      \strng{fullhash}{2b3b2efea0f5897c88cc5987ce9077cd}
+      \strng{bibnamehash}{2b3b2efea0f5897c88cc5987ce9077cd}
+      \strng{authorbibnamehash}{2b3b2efea0f5897c88cc5987ce9077cd}
+      \strng{authornamehash}{9ae45381244a29181b491bb7266612db}
+      \strng{authorfullhash}{2b3b2efea0f5897c88cc5987ce9077cd}
+      \strng{nameabibnamehash}{2b3b2efea0f5897c88cc5987ce9077cd}
+      \strng{nameanamehash}{9ae45381244a29181b491bb7266612db}
+      \strng{nameafullhash}{2b3b2efea0f5897c88cc5987ce9077cd}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{number}{6391}
+      \field{title}{Evolution of pallium, hippocampus, and cortical cell types revealed by single-cell transcriptomics in reptiles}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{360}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{pages}{881\bibrangedash 888}
+      \range{pages}{8}
+      \keyw{tosches2018evolution}
+    \endentry
+    \entry{schaum2018single}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{hash=2e88e48711bf7f0aeaa35cbc01965ef0}{%
+           family={Schaum},
+           familyi={S\bibinitperiod},
+           given={Nicholas},
+           giveni={N\bibinitperiod}}}%
+        {{hash=f0b8de4d44bb45c6169c6398dc89623d}{%
+           family={Karkanias},
+           familyi={K\bibinitperiod},
+           given={Jim},
+           giveni={J\bibinitperiod}}}%
+        {{hash=32551567df964dc681627feba4b2485a}{%
+           family={Neff},
+           familyi={N\bibinitperiod},
+           given={Norma\bibnamedelima F},
+           giveni={N\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=32896a1e31fbe2a859e05758063d6bae}{%
+           family={May},
+           familyi={M\bibinitperiod},
+           given={Andrew\bibnamedelima P},
+           giveni={A\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=bca2ec7537ed7a15d5da85fb507f79b2}{%
+           family={Quake},
+           familyi={Q\bibinitperiod},
+           given={Stephen\bibnamedelima R},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=f5ac249fc726be0487abb72efa28d946}{%
+           family={Wyss-Coray},
+           familyi={W\bibinithyphendelim C\bibinitperiod},
+           given={Tony},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6629593455d75a9ec1119158db449934}{%
+           family={Darmanis},
+           familyi={D\bibinitperiod},
+           given={Spyros},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5bda68b05b516d8b8f972fff82525fce}{%
+           family={Batson},
+           familyi={B\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=29b69341adb2c138932bbf16022ea0fa}{%
+           family={Botvinnik},
+           familyi={B\bibinitperiod},
+           given={Olga},
+           giveni={O\bibinitperiod}}}%
+        {{hash=617ff6613971f286faffc31bda04dd4a}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Michelle\bibnamedelima B},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \true{morenamea}
+      \name{namea}{10}{}{%
+        {{hash=2e88e48711bf7f0aeaa35cbc01965ef0}{%
+           family={Schaum},
+           familyi={S\bibinitperiod},
+           given={Nicholas},
+           giveni={N\bibinitperiod}}}%
+        {{hash=f0b8de4d44bb45c6169c6398dc89623d}{%
+           family={Karkanias},
+           familyi={K\bibinitperiod},
+           given={Jim},
+           giveni={J\bibinitperiod}}}%
+        {{hash=32551567df964dc681627feba4b2485a}{%
+           family={Neff},
+           familyi={N\bibinitperiod},
+           given={Norma\bibnamedelima F},
+           giveni={N\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=32896a1e31fbe2a859e05758063d6bae}{%
+           family={May},
+           familyi={M\bibinitperiod},
+           given={Andrew\bibnamedelima P},
+           giveni={A\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=bca2ec7537ed7a15d5da85fb507f79b2}{%
+           family={Quake},
+           familyi={Q\bibinitperiod},
+           given={Stephen\bibnamedelima R},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=f5ac249fc726be0487abb72efa28d946}{%
+           family={Wyss-Coray},
+           familyi={W\bibinithyphendelim C\bibinitperiod},
+           given={Tony},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6629593455d75a9ec1119158db449934}{%
+           family={Darmanis},
+           familyi={D\bibinitperiod},
+           given={Spyros},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5bda68b05b516d8b8f972fff82525fce}{%
+           family={Batson},
+           familyi={B\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=29b69341adb2c138932bbf16022ea0fa}{%
+           family={Botvinnik},
+           familyi={B\bibinitperiod},
+           given={Olga},
+           giveni={O\bibinitperiod}}}%
+        {{hash=617ff6613971f286faffc31bda04dd4a}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Michelle\bibnamedelima B},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{c18d16c4d5a2b74730d670204d65d2a4}
+      \strng{fullhash}{b7745bffb0e44a4efa613c9a8447b34b}
+      \strng{bibnamehash}{b7745bffb0e44a4efa613c9a8447b34b}
+      \strng{authorbibnamehash}{b7745bffb0e44a4efa613c9a8447b34b}
+      \strng{authornamehash}{c18d16c4d5a2b74730d670204d65d2a4}
+      \strng{authorfullhash}{b7745bffb0e44a4efa613c9a8447b34b}
+      \strng{nameabibnamehash}{b7745bffb0e44a4efa613c9a8447b34b}
+      \strng{nameanamehash}{c18d16c4d5a2b74730d670204d65d2a4}
+      \strng{nameafullhash}{b7745bffb0e44a4efa613c9a8447b34b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{number}{7727}
+      \field{title}{Single-cell transcriptomics of 20 mouse organs creates a Tabula Muris: The Tabula Muris Consortium}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{562}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{pages}{367}
+      \range{pages}{1}
+      \keyw{schaum2018single}
+    \endentry
+    \entry{wolf2018scanpy}{article}{}
+      \name{author}{3}{}{%
+        {{hash=d2b89a02e9170d9e5ead84be3a7257af}{%
+           family={Wolf},
+           familyi={W\bibinitperiod},
+           given={F\bibnamedelima Alexander},
+           giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=3ab95ab1e962c518d4fb743628dff125}{%
+           family={Angerer},
+           familyi={A\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=e922f50549caa096ad5b259faec33127}{%
+           family={Theis},
+           familyi={T\bibinitperiod},
+           given={Fabian\bibnamedelima J},
+           giveni={F\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \name{namea}{3}{}{%
+        {{hash=d2b89a02e9170d9e5ead84be3a7257af}{%
+           family={Wolf},
+           familyi={W\bibinitperiod},
+           given={F\bibnamedelima Alexander},
+           giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=3ab95ab1e962c518d4fb743628dff125}{%
+           family={Angerer},
+           familyi={A\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=e922f50549caa096ad5b259faec33127}{%
+           family={Theis},
+           familyi={T\bibinitperiod},
+           given={Fabian\bibnamedelima J},
+           giveni={F\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{9bd2e2ec04058d1e8a47f5bc80e1714a}
+      \strng{fullhash}{ff37f7534c2f8c013858a2ae79009cd2}
+      \strng{bibnamehash}{ff37f7534c2f8c013858a2ae79009cd2}
+      \strng{authorbibnamehash}{ff37f7534c2f8c013858a2ae79009cd2}
+      \strng{authornamehash}{9bd2e2ec04058d1e8a47f5bc80e1714a}
+      \strng{authorfullhash}{ff37f7534c2f8c013858a2ae79009cd2}
+      \strng{nameabibnamehash}{ff37f7534c2f8c013858a2ae79009cd2}
+      \strng{nameanamehash}{9bd2e2ec04058d1e8a47f5bc80e1714a}
+      \strng{nameafullhash}{ff37f7534c2f8c013858a2ae79009cd2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Genome biology}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{number}{1}
+      \field{title}{SCANPY: large-scale single-cell gene expression data analysis}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{19}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{pages}{15}
+      \range{pages}{1}
+      \keyw{wolf2018scanpy}
+    \endentry
+    \entry{mcinnes2018umap}{article}{}
+      \name{author}{3}{}{%
+        {{hash=f3edd0ee6ca72eca5c532b9c1fcee621}{%
+           family={McInnes},
+           familyi={M\bibinitperiod},
+           given={Leland},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2a653f5c3174b96798d6336399101032}{%
+           family={Healy},
+           familyi={H\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=542b470ec223367aba58d9d095e4e340}{%
+           family={Melville},
+           familyi={M\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{namea}{3}{}{%
+        {{hash=f3edd0ee6ca72eca5c532b9c1fcee621}{%
+           family={McInnes},
+           familyi={M\bibinitperiod},
+           given={Leland},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2a653f5c3174b96798d6336399101032}{%
+           family={Healy},
+           familyi={H\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=542b470ec223367aba58d9d095e4e340}{%
+           family={Melville},
+           familyi={M\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{3341d13f7f8011d4c09baee830a3a666}
+      \strng{fullhash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{bibnamehash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{authorbibnamehash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{authornamehash}{3341d13f7f8011d4c09baee830a3a666}
+      \strng{authorfullhash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{nameabibnamehash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{nameanamehash}{3341d13f7f8011d4c09baee830a3a666}
+      \strng{nameafullhash}{9bc0813b09f8460b9f60233db84de773}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1802.03426}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Umap: Uniform manifold approximation and projection for dimension reduction}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \keyw{mcinnes2018umap}
     \endentry
   \enddatalist
 \endrefsection

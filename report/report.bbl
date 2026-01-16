@@ -1420,8 +1420,8 @@
       \strng{nameabibnamehash}{ff37f7534c2f8c013858a2ae79009cd2}
       \strng{nameanamehash}{9bd2e2ec04058d1e8a47f5bc80e1714a}
       \strng{nameafullhash}{ff37f7534c2f8c013858a2ae79009cd2}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Genome biology}
@@ -1487,8 +1487,8 @@
       \strng{nameabibnamehash}{9bc0813b09f8460b9f60233db84de773}
       \strng{nameanamehash}{3341d13f7f8011d4c09baee830a3a666}
       \strng{nameafullhash}{9bc0813b09f8460b9f60233db84de773}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:1802.03426}
