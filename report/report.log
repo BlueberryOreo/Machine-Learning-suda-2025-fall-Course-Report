@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.9.22)  16 JAN 2026 19:51
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.9.22)  16 JAN 2026 20:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1287,11 +1287,7 @@ File: figures/autoencoder_architecture.pdf Graphic file (type pdf)
 LaTeX Font Info:    Trying to load font information for U+dsrom on input line 161.
  (e:/TexLive/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-) [3]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4] [5]
+) [3] [4] [5]
 
 Package fontspec Info: Could not resolve font "FangSong/I" (it probably
 (fontspec)             doesn't exist).
@@ -1304,12 +1300,12 @@ Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
 Package fontspec Info: Could not resolve font "FangSong/I" (it probably
 (fontspec)             doesn't exist).
 
-LaTeX Font Info:    Trying to load font information for TU+pcr on input line 217.
-LaTeX Font Info:    No file TUpcr.fd. on input line 217.
+LaTeX Font Info:    Trying to load font information for TU+pcr on input line 219.
+LaTeX Font Info:    No file TUpcr.fd. on input line 219.
 
 
 LaTeX Font Warning: Font shape `TU/pcr/m/n' undefined
-(Font)              using `TU/lmr/m/n' instead on input line 217.
+(Font)              using `TU/lmr/m/n' instead on input line 219.
 
 
 Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
@@ -1341,7 +1337,7 @@ Package logreq Info: Writing requests to 'report.run.xml'.
 Here is how much of TeX's memory you used:
  35129 strings out of 474773
  737802 string characters out of 5763514
- 1945842 words of memory out of 5000000
+ 1944842 words of memory out of 5000000
  56653 multiletter control sequences out of 15000+600000
  627550 words of font info for 184 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
