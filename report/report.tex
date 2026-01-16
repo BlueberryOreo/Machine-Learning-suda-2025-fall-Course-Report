@@ -30,6 +30,8 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{booktabs}
 \usepackage{pdfpages}
 \usepackage[backend=biber,style=gb7714-2015,gbpub=false,gbnamefmt=lowercase,maxbibnames=99,gbcitelocal=chinese]{biblatex}
 \addbibresource[location=local]{reference.bib}
@@ -186,6 +188,24 @@
 为保证数据的质量，在进行模型训练前，首先对数据进行预处理。本文采用细胞常用预处理流程，包括质量控制（Quality Control, QC）、高变基因筛选、数据标准化和对数化操作。所有预处理操作均基于Scanpy库\cite{wolf2018scanpy}完成。其中，对于三个数据集均选取2000个高变基因进行分析。
 
 \subsection{结果}
+
+\begin{table}[!h]
+	\centering
+	\caption{实验结果}
+	\small\begin{tabular}{c|ccc|ccc|ccc}
+		\toprule
+		  & \multicolumn{3}{c|}{Turtle} & \multicolumn{3}{c|}{Diaphragm} & \multicolumn{3}{c}{Lung} \\
+		方法 & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ \\
+		\midrule
+		PCA & 0.775 & 0.481 & 0.653 & 0.759 & 0.513 & 0.623 & \textbf{0.775} & 0.481 & \textbf{0.653} \\
+		基准自编码器 & 0.840 & 0.837 & 0.872 & 0.756 & 0.498 & 0.628 & 0.746 & 0.466 & 0.575 \\
+		自编码器+对比学习 & \textbf{0.866} & \textbf{0.916} & \textbf{0.926} & \textbf{0.927} & \textbf{0.965} & \textbf{0.970} & 0.760 & \textbf{0.522} & 0.622 \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:results}
+\end{table}
+
+实验结果如表~\ref{tab:results}~所示。为充分体现所提方法对聚类的促进作用，实验中额外对传统非神经网络的方法（基于PCA进行特征提取）进行了测试对比。
 
 \subsection{可视化分析}
 
