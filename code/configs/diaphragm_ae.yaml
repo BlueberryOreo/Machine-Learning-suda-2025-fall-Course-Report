@@ -19,7 +19,7 @@ train:
   num_workers: 4
   save_interval: 20
   save_loss_curve: true
-  use_contrastive: true
+  use_contrastive: false
   contrastive_config:
     lambda_max: 1.0
     temperature: 0.05
@@ -39,4 +39,4 @@ cluster:
   metric: "cosine"
   # visualization
   display_gt: true
-  file_type: "png"  # "png" | "pdf"
+  file_type: "pdf"  # "png" | "pdf"
