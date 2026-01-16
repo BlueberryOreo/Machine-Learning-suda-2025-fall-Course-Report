@@ -191,14 +191,14 @@
 
 \begin{table}[!h]
 	\centering
-	\caption{实验结果}
+	\caption{实验结果，粗体表示最好结果}
 	\small\begin{tabular}{c|ccc|ccc|ccc}
 		\toprule
 		  & \multicolumn{3}{c|}{Turtle} & \multicolumn{3}{c|}{Diaphragm} & \multicolumn{3}{c}{Lung} \\
 		方法 & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ \\
 		\midrule
 		PCA & \textbf{0.868} & 0.847 & 0.908 & 0.893 & 0.850 & 0.911 & 0.775 & 0.481 & 0.653 \\
-		基准自编码器 & 0.840 & 0.837 & 0.872 & 0.756 & 0.498 & 0.628 & 0.746 & 0.466 & 0.575 \\
+		基准自编码器 & 0.860 & \textbf{0.913} & 0.910 & 0.912 & 0.901 & 0.939 & 0.746 & 0.466 & 0.575 \\
 		自编码器+对比学习 & 0.866 & \textbf{0.913} & \textbf{0.935} & \textbf{0.958} & \textbf{0.979} & \textbf{0.991} & \textbf{0.823} & \textbf{0.722} & \textbf{0.786} \\
 		\bottomrule
 	\end{tabular}
