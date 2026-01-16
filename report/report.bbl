@@ -1440,6 +1440,69 @@
       \range{pages}{1}
       \keyw{wolf2018scanpy}
     \endentry
+    \entry{mcinnes2018umap}{article}{}
+      \name{author}{3}{}{%
+        {{hash=f3edd0ee6ca72eca5c532b9c1fcee621}{%
+           family={McInnes},
+           familyi={M\bibinitperiod},
+           given={Leland},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2a653f5c3174b96798d6336399101032}{%
+           family={Healy},
+           familyi={H\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=542b470ec223367aba58d9d095e4e340}{%
+           family={Melville},
+           familyi={M\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{namea}{3}{}{%
+        {{hash=f3edd0ee6ca72eca5c532b9c1fcee621}{%
+           family={McInnes},
+           familyi={M\bibinitperiod},
+           given={Leland},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2a653f5c3174b96798d6336399101032}{%
+           family={Healy},
+           familyi={H\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=542b470ec223367aba58d9d095e4e340}{%
+           family={Melville},
+           familyi={M\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{3341d13f7f8011d4c09baee830a3a666}
+      \strng{fullhash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{bibnamehash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{authorbibnamehash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{authornamehash}{3341d13f7f8011d4c09baee830a3a666}
+      \strng{authorfullhash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{nameabibnamehash}{9bc0813b09f8460b9f60233db84de773}
+      \strng{nameanamehash}{3341d13f7f8011d4c09baee830a3a666}
+      \strng{nameafullhash}{9bc0813b09f8460b9f60233db84de773}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1802.03426}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Umap: Uniform manifold approximation and projection for dimension reduction}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \keyw{mcinnes2018umap}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
