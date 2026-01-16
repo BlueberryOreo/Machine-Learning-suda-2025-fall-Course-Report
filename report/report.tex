@@ -179,7 +179,7 @@
 \citet{tosches2018evolution} 对红耳龟（Trachemys scripta elegans）雌性个体端脑背侧皮层区域进行采样，共获得18664个单细胞样本，覆盖23500个基因。
 \citet{schaum2018single} 构建了涵盖小鼠20种器官和组织的单细胞转录组参考图谱，总计包含超过100000个单细胞样本。本文从该数据集中选取膈肌（Diaphragm）和肺（Lung）两个组织的细胞数据进行实验，分别包含870个细胞和1676个细胞，均测量了23341个基因。
 
-在模型设置中，自编码器的输入维度设为2000，中间隐藏层维度为1024，隐空间特征维度为128。编码器与解码器的网络层数$l^{\mathcal{E}}$和$l^{\mathcal{D}}$均设置为2层，并在网络中引入dropout正则化策略，dropout 率设为0.1。模型训练过程中，批次大小设置为512，学习率为0.001，训练轮数为100轮。对比学习损失的权重系数$\lambda$设为1.0，温度参数$\tau$设为0.05。在聚类阶段，本文采用单细胞分析中常用的基于kNN图的Leiden聚类算法\cite{traag2019louvain}对隐空间特征进行聚类分析。具体而言，借助Scanpy库\cite{wolf2018scanpy}构建k近邻图，设置邻居数为15，并采用余弦相似度作为样本间相似度度量。对于分辨率，在红耳龟（Turtle）数据集上设置为0.8，在小鼠肺细胞（Lung）数据集上设置为0.7，在小鼠膈肌细胞（Diaphragm）数据集上设置为0.5。
+在模型设置中，自编码器的输入维度设为2000，中间隐藏层维度为1024，隐空间特征维度为128。编码器与解码器的网络层数$l^{\mathcal{E}}$和$l^{\mathcal{D}}$均设置为2层，并在网络中引入dropout正则化策略，dropout 率设为0.1。模型训练过程中，批次大小设置为512，学习率为0.001，训练轮数为100轮。对比学习损失的权重系数$\lambda$设为1.0，温度参数$\tau$设为0.05。在聚类阶段，本文采用单细胞分析中常用的基于kNN图的Leiden聚类算法\cite{traag2019louvain}对隐空间特征进行聚类分析。具体而言，借助Scanpy库\cite{wolf2018scanpy}构建k近邻图，设置邻居数为15，并采用余弦相似度作为样本间相似度度量。对于分辨率，在红耳龟（Turtle）数据集上设置为0.6，在小鼠肺细胞（Lung）数据集上设置为0.7，在小鼠膈肌细胞（Diaphragm）数据集上设置为0.5。
 
 实验在一台Linux服务器上完成。服务器采用双路AMD EPYC 7402处理器（每颗24核、支持超线程，总计48物理核心 / 96逻辑线程），CPU主频2.8 GHz，并具备多NUMA节点拓扑结构。训练使用一块NVIDIA GeForce RTX 3090 GPU进行加速。软件环境方面，实验使用Python 3.11，并基于PyTorch 2.5.0搭建模型，以保证实验的可复现性与一致性。
 
@@ -197,9 +197,9 @@
 		  & \multicolumn{3}{c|}{Turtle} & \multicolumn{3}{c|}{Diaphragm} & \multicolumn{3}{c}{Lung} \\
 		方法 & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ & NMI $\uparrow$ & ARI $\uparrow$ & ACC $\uparrow$ \\
 		\midrule
-		PCA & 0.775 & 0.481 & 0.653 & 0.893 & 0.850 & 0.911 & 0.775 & 0.481 & 0.653 \\
+		PCA & \textbf{0.868} & 0.847 & 0.908 & 0.893 & 0.850 & 0.911 & 0.775 & 0.481 & 0.653 \\
 		基准自编码器 & 0.840 & 0.837 & 0.872 & 0.756 & 0.498 & 0.628 & 0.746 & 0.466 & 0.575 \\
-		自编码器+对比学习 & \textbf{0.866} & \textbf{0.916} & \textbf{0.926} & \textbf{0.958} & \textbf{0.979} & \textbf{0.991} & \textbf{0.823} & \textbf{0.722} & \textbf{0.786} \\
+		自编码器+对比学习 & 0.866 & \textbf{0.913} & \textbf{0.935} & \textbf{0.958} & \textbf{0.979} & \textbf{0.991} & \textbf{0.823} & \textbf{0.722} & \textbf{0.786} \\
 		\bottomrule
 	\end{tabular}
 	\label{tab:results}
