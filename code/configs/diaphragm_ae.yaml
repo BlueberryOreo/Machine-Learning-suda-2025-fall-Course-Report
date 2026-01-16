@@ -39,4 +39,4 @@ cluster:
   metric: "cosine"
   # visualization
   display_gt: true
-  file_type: "png"  # "png" | "pdf"
+  file_type: "pdf"  # "png" | "pdf"
