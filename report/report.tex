@@ -179,13 +179,13 @@
 \citet{tosches2018evolution} 对红耳龟（Trachemys scripta elegans）雌性个体端脑背侧皮层区域进行采样，共获得18664个单细胞样本，覆盖23500个基因。
 \citet{schaum2018single} 构建了涵盖小鼠20种器官和组织的单细胞转录组参考图谱，总计包含超过100000个单细胞样本。本文从该数据集中选取膈肌（Diaphragm）和肺（Lung）两个组织的细胞数据进行实验，分别包含870个细胞和1676个细胞，均测量了23341个基因。
 
-在模型设置中，自编码器的输入维度设为2000，中间隐藏层维度为1024，隐空间特征维度为128。编码器与解码器的网络层数$l^{\mathcal{E}}$和$l^{\mathcal{D}}$均设置为2层，并在网络中引入dropout正则化策略，dropout 率设为0.1。模型训练过程中，批次大小设置为512，学习率为0.001，训练轮数为100轮。对比学习损失的权重系数$\lambda$设为1.0，温度参数$\tau$设为0.05。在聚类阶段，本文采用单细胞分析中常用的基于kNN图的Leiden聚类算法\cite{traag2019louvain}对隐空间特征进行聚类分析。具体而言，借助Scanpy库\cite{wolf2018scanpy}构建k近邻图，设置邻居数为15，并采用余弦相似度作为样本间相似度度量。对于分辨率，在红耳龟数据集（以下简称Turtle）上设置为0.6，在小鼠肺细胞数据集（以下简称Lung）上设置为0.7，在小鼠膈肌细胞数据集（以下简称Diaphragm）上设置为0.5。
+在模型设置中，自编码器的输入维度设为2000，中间隐藏层维度为1024，隐空间特征维度为128。编码器与解码器的网络层数$l^{\mathcal{E}}$和$l^{\mathcal{D}}$均设置为2层，采用GELU函数作为激活函数，并在网络中引入dropout正则化策略，dropout 率设为0.1。模型训练过程中，批次大小设置为512，学习率为0.001，训练轮数为100轮。对比学习损失的权重系数$\lambda$设为1.0，温度参数$\tau$设为0.05。在聚类阶段，本文采用单细胞分析中常用的基于kNN图的Leiden聚类算法\cite{traag2019louvain}对隐空间特征进行聚类分析。具体而言，借助Scanpy库\cite{wolf2018scanpy}构建k近邻图，设置邻居数为15，并采用余弦相似度作为样本间相似度度量。对于分辨率，在红耳龟数据集（以下简称Turtle）上设置为0.6，在小鼠肺细胞数据集（以下简称Lung）上设置为0.7，在小鼠膈肌细胞数据集（以下简称Diaphragm）上设置为0.5。
 
 实验在一台Linux服务器上完成。服务器采用双路AMD EPYC 7402处理器（每颗24核、支持超线程，总计48物理核心 / 96逻辑线程），CPU主频2.8 GHz，并具备多NUMA节点拓扑结构。训练使用一块NVIDIA GeForce RTX 3090 GPU进行加速。软件环境方面，实验使用Python 3.11，并基于PyTorch 2.5.0搭建模型，以保证实验的可复现性与一致性。
 
 \subsection{数据预处理}
 
-为保证数据的质量，在进行模型训练前，首先对数据进行预处理。本文采用细胞常用预处理流程，包括质量控制（Quality Control, QC）、高变基因筛选、数据标准化和对数化操作。所有预处理操作均基于Scanpy库\cite{wolf2018scanpy}完成。其中，对于三个数据集均选取2000个高变基因进行分析。
+为保证数据质量并提高模型训练的稳定性，在模型训练之前对原始细胞数据进行了系统的预处理。本文采用单细胞分析中常用的预处理流程，主要包括质量控制（Quality Control, QC）、高变基因筛选、数据标准化以及对数化处理。所有预处理步骤均基于Scanpy库\cite{wolf2018scanpy}实现。为保证不同数据集之间的可比性，本文在三个数据集中均统一选取2000个高变基因 作为后续分析和模型训练的输入特征。
 
 \subsection{实验结果}
 
@@ -211,11 +211,76 @@
 
 \subsection{可视化分析}
 
-
+附录图~\ref{fig:turtle-visualize}、\ref{fig:diaphragm-visualize}~和~\ref{fig:lung-visualize}~展示了基于标准自编码器及引入对比学习的自编码器所提取特征，在细胞数据上通过UMAP算法\cite{mcinnes2018umap} 进行可视化的结果。可以观察到，引入对比学习后，不同类别细胞在特征空间中的分离程度明显增强，而同一类别细胞的特征分布更加紧凑。这一现象与表~\ref{tab:results}~中NMI和ARI指标的整体提升高度一致，表明对比学习有效增强了潜在特征的全局结构一致性以及样本对层面的类内一致性。尤其在Lung数据集上（图~\ref{fig:lung-visualize}），标准自编码器提取的特征中同类细胞分布较为分散，导致其在ARI和ACC指标上表现受限；而在引入对比学习后，同类细胞特征显著收敛、类间边界更加清晰，对应地在定量结果中表现为ARI和ACC的大幅提升。该结果进一步说明，对比学习通过同时压缩类内距离并拉开类间距离，为聚类算法提供了更加判别性的特征表示，从而促成更加紧凑且分离良好的细胞簇。
 
 \section{总结}
 
-\newpage
+本文围绕单细胞转录组数据高维、稀疏和噪声大的特点，提出了一种基于对比学习增强自编码器的单细胞聚类方法。针对传统PCA等线性降维方法以及仅以重构误差为目标的自编码器在刻画复杂非线性结构和聚类判别性方面的不足，本文在自编码器框架中引入对比学习机制，通过联合优化重构损失与对比损失，引导模型学习更加紧凑且具有良好可分性的潜在特征表示。
+
+在多个真实单细胞转录组数据集（Turtle、Diaphragm和Lung）上的实验结果表明，与PCA以及基准自编码器方法相比，引入对比学习后的自编码器在NMI、ARI和ACC等聚类评价指标上均取得了更优的性能，尤其在结构复杂的数据集上表现出显著优势。UMAP可视化结果进一步验证了该方法能够有效增强类内一致性、拉大类间距离，从而形成更加清晰、稳定的细胞簇结构。
+
+综上所述，本文方法通过对比学习与自编码器的有机结合，在保持表达信息重构能力的同时显著提升了特征表示的判别性，为单细胞转录组数据的无监督聚类分析提供了一种有效且具有推广潜力的解决方案。
+
+
 \printbibliography
+
+\newpage
+\appendix
+\section*{附录}
+\renewcommand{\thefigure}{\thesection-\arabic{figure}}
+\setcounter{figure}{0}
+
+\section{可视化结果}
+
+\begin{figure}[!h]
+	\centering
+	\begin{minipage}{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/ae_turtle_leiden_umap_clusters.pdf}
+		\\\small 基准自编码器
+	\end{minipage}
+	\vspace{0.5em}
+	\begin{minipage}{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/ae_cont_turtle_leiden_umap_clusters.pdf}
+		\\\small 自编码器+对比学习
+	\end{minipage}
+	\caption{Turtle数据集UMAP可视化结果}
+	\label{fig:turtle-visualize}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\begin{minipage}{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/ae_diaphragm_leiden_umap_clusters.pdf}
+		\\\small 基准自编码器
+	\end{minipage}
+	\vspace{0.5em}
+	\begin{minipage}{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/ae_cont_diaphragm_leiden_umap_clusters.pdf}
+		\\\small 自编码器+对比学习
+	\end{minipage}
+	\caption{Diaphragm数据集UMAP可视化结果}
+	\label{fig:diaphragm-visualize}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\begin{minipage}{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/ae_lung_leiden_umap_clusters.pdf}
+		\\\small 基准自编码器
+	\end{minipage}
+	\vspace{0.5em}
+	\begin{minipage}{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/ae_cont_lung_leiden_umap_clusters.pdf}
+		\\\small 自编码器+对比学习
+	\end{minipage}
+	\caption{Lung数据集UMAP可视化结果}
+	\label{fig:lung-visualize}
+\end{figure}
 
 \end{document}
