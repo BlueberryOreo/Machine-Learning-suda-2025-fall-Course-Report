@@ -88,7 +88,7 @@ scripts/windows/preprocess_<turtle/lung/diaphragm>.bat
 
 项目采用自编码器（Auto Encoder）进行细胞特征提取，并使用对比学习的方式辅助自编码器的学习。提取细胞特征后采用kNN建立图，并使用Leiden算法进行聚类。建议使用GPU进行训练。
 
-预训练模型权重：[百度网盘链接](https://pan.baidu.com/s/1UhRxfph5WXXp11M4fn-IfA) 提取码 eaub
+预训练模型权重：[百度网盘链接](https://pan.baidu.com/s/1U6OrrGTXWxl--tsgvZkqZw) 提取码 gajz
 
 ```bash
 cd code
