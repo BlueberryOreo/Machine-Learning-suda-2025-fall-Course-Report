@@ -1,5 +1,6 @@
 *.h5ad
 ~$*.docx
+~$*.pptx
 *.aux
 *.7z
 
